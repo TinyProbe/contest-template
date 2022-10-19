@@ -45,12 +45,15 @@ void print_vector(const std::vector<T>& v, const std::string& end) {
 }
 
 int main() {
+#ifdef TINY__
+  freopen("input.txt", "r", stdin);
+#elif TINY___
+  freopen("input.txt", "r", stdin);
+  freopen("out1.txt", "w", stdout);
+#endif
   using namespace std;
   cin.tie(0)->sync_with_stdio(0);
   cout << fixed << setprecision(15);
-#ifdef TINY__
-  freopen("input.txt", "r", stdin);
-#endif
 
   testcase (0) {
     auto n = scan<int>();
