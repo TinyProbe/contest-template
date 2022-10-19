@@ -20,17 +20,17 @@ void            print_vector(const std::vector<T>&, const std::string& = " ");
 
 template <class T>
 T scan() {
-	static T obj;
+  static T obj;
   std::cin >> obj;
-	return obj;
+  return obj;
 }
 template <class T>
 std::vector<T> scan_vector(const int& n) {
   std::vector<T> v(n);
-	for (auto i = 0; i < n; ++i) {
+  for (auto i = 0; i < n; ++i) {
     v[i] = scan<T>();
   }
-	return v;
+  return v;
 }
 template <class T>
 void print(const T& obj, const std::string& end) {
@@ -38,10 +38,10 @@ void print(const T& obj, const std::string& end) {
 }
 template <class T>
 void print_vector(const std::vector<T>& v, const std::string& end) {
-	for (auto i = 0; i < int(v.size()); ++i) {
+  for (auto i = 0; i < int(v.size()); ++i) {
     print(v[i], end);
   }
-	if (end != "\n") { print(); }
+  if (end != "\n") { print(); }
 }
 
 int main() {
