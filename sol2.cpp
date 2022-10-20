@@ -1,7 +1,14 @@
 #include <bits/stdc++.h>
 
-#define loop(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
-#define else(c) else if (c)
+#define testcase(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
+#define else(c)     else if (c)
+
+using namespace std;
+using llong   = long long;
+using uchar   = unsigned char;
+using ushort  = unsigned short;
+using uint    = unsigned int;
+using ullong  = unsigned long long;
 
 template <class t = std::string>
 t               scan();
@@ -38,13 +45,7 @@ void print_vector(const std::vector<t>& v, const std::string& end) {
     if (end != "\n") { print(); }
 }
 
-using namespace std;
-using llong   = long long;
-using uchar   = unsigned char;
-using ushort  = unsigned short;
-using uint    = unsigned int;
-using ullong  = unsigned long long;
-
+void solve();
 int main() {
 #ifdef TINY__
     freopen("input.txt", "r", stdin);
@@ -54,8 +55,9 @@ int main() {
 #endif
     cin.tie(0)->sync_with_stdio(0);
     cout << fixed << setprecision(15);
+    testcase (0) { solve(); }
+}
 
-    loop (0) {
+void solve() {
 
-    }
 }
