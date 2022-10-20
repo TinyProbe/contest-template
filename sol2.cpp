@@ -43,7 +43,7 @@ int main() {
   freopen("input.txt", "r", stdin);
 #elif TINY___
   freopen("input.txt", "r", stdin);
-  freopen("out1.txt", "w", stdout);
+  freopen("out2.txt", "w", stdout);
 #endif
   using namespace std;
   using llong   = long long;
