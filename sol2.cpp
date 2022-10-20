@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 
+#define loop(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
+#define else(c) else if (c)
+
 template <class t = std::string>
 t               scan();
 template <class t = std::string>
@@ -34,9 +37,6 @@ void print_vector(const std::vector<t>& v, const std::string& end) {
   }
   if (end != "\n") { print(); }
 }
-
-#define loop(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
-#define else(c) else if (c)
 
 using namespace std;
 using llong   = long long;
