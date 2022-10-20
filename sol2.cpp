@@ -10,35 +10,35 @@ using ushort  = unsigned short;
 using uint    = unsigned int;
 using ullong  = unsigned long long;
 
-template <class t = std::string>
-t               scan();
-template <class t = std::string>
-std::vector<t>  scan_vector(const int&);
-template <class t = std::string>
-void            print(const t& = t(), const std::string& = "\n");
-template <class t>
-void            print_vector(const std::vector<t>&, const std::string& = " ");
+template <class T = std::string>
+T               scan();
+template <class T = std::string>
+std::vector<T>  scan_vector(const int&);
+template <class T = std::string>
+void            print(const T& = T(), const std::string& = "\n");
+template <class T>
+void            print_vector(const std::vector<T>&, const std::string& = " ");
 
-template <class t>
-t scan() {
-    static t obj;
+template <class T>
+T scan() {
+    static T obj;
     std::cin >> obj;
     return obj;
 }
-template <class t>
-std::vector<t> scan_vector(const int& n) {
-    std::vector<t> v(n);
+template <class T>
+std::vector<T> scan_vector(const int& n) {
+    std::vector<T> v(n);
     for (auto i = 0; i < n; ++i) {
-        v[i] = scan<t>();
+        v[i] = scan<T>();
     }
     return v;
 }
-template <class t>
-void print(const t& obj, const std::string& end) {
+template <class T>
+void print(const T& obj, const std::string& end) {
     std::cout << obj << end;
 }
-template <class t>
-void print_vector(const std::vector<t>& v, const std::string& end) {
+template <class T>
+void print_vector(const std::vector<T>& v, const std::string& end) {
     for (auto i = 0; i < int(v.size()); ++i) {
         print(v[i], end);
     }
@@ -59,5 +59,5 @@ int main() {
 }
 
 void solve() {
-
+    print("Hello World!");
 }
