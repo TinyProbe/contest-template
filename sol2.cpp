@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
-#define testcase(p1)  for (auto tc__ = ((p1) ? max(p1, 0) : scan<int>()); tc__--; )
-#define else(c)       else if (c)
+#define loop(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
+#define else(c) else if (c)
 
 using llong   = long long;
 using uchar   = unsigned char;
@@ -55,7 +55,7 @@ int main() {
   cin.tie(0)->sync_with_stdio(0);
   cout << fixed << setprecision(15);
 
-  testcase (0) {
+  loop (0) {
     auto n = scan<int>();
     auto a = scan_vector<int>(n);
     print_vector(a);
