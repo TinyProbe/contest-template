@@ -1,8 +1,5 @@
 #include <bits/stdc++.h>
 
-#define loop(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
-#define else(c) else if (c)
-
 template <class t = std::string>
 t               scan();
 template <class t = std::string>
@@ -38,23 +35,27 @@ void print_vector(const std::vector<t>& v, const std::string& end) {
   if (end != "\n") { print(); }
 }
 
+#define loop(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
+#define else(c) else if (c)
+
+using namespace std;
+using llong   = long long;
+using uchar   = unsigned char;
+using ushort  = unsigned short;
+using uint    = unsigned int;
+using ullong  = unsigned long long;
+
 int main() {
 #ifdef TINY__
   freopen("input.txt", "r", stdin);
 #elif TINY___
   freopen("input.txt", "r", stdin);
-  freopen("out2.txt", "w", stdout);
+  freopen("out1.txt", "w", stdout);
 #endif
-  using namespace std;
-  using llong   = long long;
-  using uchar   = unsigned char;
-  using ushort  = unsigned short;
-  using uint    = unsigned int;
-  using ullong  = unsigned long long;
   cin.tie(0)->sync_with_stdio(0);
   cout << fixed << setprecision(15);
 
   loop (0) {
-
+    
   }
 }
