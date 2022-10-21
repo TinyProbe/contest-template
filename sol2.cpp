@@ -22,37 +22,39 @@ void            solve();
 
 template <class T>
 T scan() {
-    static T obj;
-    std::cin >> obj;
-    return obj;
+  static T obj;
+  std::cin >> obj;
+  return obj;
 }
 template <class T>
 std::vector<T> scan_vector(const int& n) {
-    std::vector<T> v(n);
-    for (auto i = 0; i < n; ++i) {
-        v[i] = scan<T>();
-    }
-    return v;
+  std::vector<T> v(n);
+  for (auto& e : v) {
+    e = scan<T>();
+  }
+  return v;
 }
 template <class T>
 void print(const T& obj, const std::string& end) {
-    std::cout << obj << end;
+  std::cout << obj << end;
 }
 template <class T>
 void print_vector(const std::vector<T>& v, const std::string& end) {
-    for (auto i = 0; i < int(v.size()); ++i) {
-        print(v[i], end);
-    }
-    if (end != "\n") { print(); }
+  for (auto& e : v) {
+    print(e, end);
+  }
+  if (end != "\n") {
+    print();
+  }
 }
 
 int main() {
 #ifdef TINY__
-    freopen("input.txt", "r", stdin);
+  freopen("input.txt", "r", stdin);
 #endif
-    cin.tie(0)->sync_with_stdio(0);
-    cout << fixed << setprecision(15);
-    testcase (0) { solve(); }
+  cin.tie(0)->sync_with_stdio(0);
+  cout << fixed << setprecision(15);
+  testcase (0) { solve(); }
 }
 
 void solve() {
