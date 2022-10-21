@@ -18,6 +18,7 @@ template <class T = std::string>
 void            print(const T& = T(), const std::string& = "\n");
 template <class T>
 void            print_vector(const std::vector<T>&, const std::string& = " ");
+void            solve();
 
 template <class T>
 T scan() {
@@ -45,7 +46,6 @@ void print_vector(const std::vector<T>& v, const std::string& end) {
     if (end != "\n") { print(); }
 }
 
-void solve();
 int main() {
 #ifdef TINY__
     freopen("input.txt", "r", stdin);
@@ -59,5 +59,5 @@ int main() {
 }
 
 void solve() {
-    print("Hello World!");
+
 }
