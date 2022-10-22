@@ -54,7 +54,9 @@ int main() {
 #endif
   cin.tie(0)->sync_with_stdio(0);
   cout << fixed << setprecision(15);
-  testcase (0) { solve(); }
+  testcase (0) {
+    solve();
+  }
 }
 
 void solve() {
