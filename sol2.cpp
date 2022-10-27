@@ -5,10 +5,6 @@
 
 using namespace std;
 using llong   = long long;
-using uchar   = unsigned char;
-using ushort  = unsigned short;
-using uint    = unsigned int;
-using ullong  = unsigned long long;
 
 template <class T = std::string>
 T               scan();
