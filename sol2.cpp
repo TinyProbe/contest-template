@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 
-#define testcase(t) for (auto time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
+#define testcase(t) for (int time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
 #define else(c)     else if (c)
 
 using namespace std;
-using llong   = long long;
+using llong = long long;
 
 template <class T = std::string>
 T               scan();
