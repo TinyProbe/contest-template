@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 
-#define testcase(t) for (int time__ = ((t) ? max(t, 0) : scan<int>()); time__--; )
+#define testcase(t) for (auto tc__ = (t ? max(t, 0) : scan<int>()); tc__--; )
 #define else(c)     else if (c)
 
 using namespace std;
