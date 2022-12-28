@@ -45,9 +45,6 @@ void print_vector(const std::vector<T>& v, const std::string& end) {
 }
 
 int main() {
-#ifdef TINY__
-  freopen("input.txt", "r", stdin);
-#endif
   cin.tie(0)->sync_with_stdio(0);
   cout << fixed << setprecision(15);
   testcase (0) {
