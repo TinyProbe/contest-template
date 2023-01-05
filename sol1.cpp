@@ -64,5 +64,7 @@ int main() {
 }
 
 void solve() {
-
+	auto n = scan<int>();
+	auto a = scan_vector<int>(n);
+	print_vector(a);
 }
