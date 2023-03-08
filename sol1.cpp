@@ -1,7 +1,12 @@
 #include <bits/stdc++.h>
 
-#define testcase(t) for (auto tc__ = (t ? max(t, 0) : scan<i32>()); tc__--; )
 #define else(c)     else if (c)
+#define testcase(t) for (auto tc__ = (t ? max(t, 0) : scan<i32>()); tc__--; )
+#define solve(N)    int main() {\
+	cin.tie(0)->sync_with_stdio(0);\
+	cout << fixed << setprecision(15);\
+	testcase (N) { solution(); }\
+}
 
 template <class T = std::string>
 T scan() {
@@ -24,7 +29,6 @@ void print_vector(const std::vector<T>& v, const std::string& end = " ") {
 	for (auto& e : v) { print(e, end); }
 	if (end != "\n") { print(); }
 }
-void solve();
 
 using namespace std;
 using i8 = char;
@@ -40,12 +44,6 @@ using usize = unsigned long int;
 using f32 = float;
 using f64 = double;
 
-int main() {
-	cin.tie(0)->sync_with_stdio(0);
-	cout << fixed << setprecision(15);
-	testcase (0) { solve(); }
-}
+void solution() {
 
-void solve() {
-
-}
+} solve(0);
