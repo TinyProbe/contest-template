@@ -13,7 +13,9 @@ signed main() {
 	int t = 1;
 	// cin >> t;
 	while (t--) { solve(); }
+	assert(cin && !(cin >> t));
 }
+
 void solve() {
-	cout << "hello world!!" << '\n';
+	
 }

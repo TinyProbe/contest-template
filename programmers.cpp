@@ -2,5 +2,6 @@
 #define F first
 #define S second
 using namespace std;
+using llong = long long;
 
 
