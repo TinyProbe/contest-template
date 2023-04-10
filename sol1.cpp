@@ -6,7 +6,8 @@
 	int tc; for (N ? tc = N : fin >> tc; tc > 0; --tc) solve()
 #define __MAIN__(N)\
 	void solve();\
-	signed main() { untieio; testcase(N); assert(fin && !(fin >> tc)); }
+	signed main() { untieio; testcase(N); assert(fin && !(fin >> tc)); }\
+	void solve()
 using namespace std;
 
 static class FastIn {
@@ -93,19 +94,6 @@ public:
 #define F first
 #define S second
 
-__MAIN__(0);
-void solve() {
-	int n, c, d;
-	fin >> n >> c >> d;
-	vector<int> a(n);
-	for (int i = 0; i < n; ++i) {
-		fin >> a[i];
-	}
-	sort(a.rbegin(), a.rend());
-	for (int i = 1; i < n; ++i) {
-		a[i] += a[i - 1];
-	}
-	if (a.front() * d < c) { fout << "Impossible\n"; return; }
-	if (a[min(d - 1, n - 1)] >= c) { fout << "Infinity\n"; return; }
+__MAIN__(0) {
 	
 }
