@@ -8,9 +8,8 @@
 	void solve();\
 	signed main() { untieio; testcase(N); assert(fin && !(fin >> tc)); }
 using namespace std;
-using namespace chrono;
 
-static class fastin {
+static class FastIn {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int index, size;
@@ -41,55 +40,56 @@ private:
 		return *s1 - *s2;
 	}
 public:
-	fastin() : index(-1), state(true) { assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE); }
-	fastin& operator>>(bool& b)       { const char* cstr = next_chars();
+	FastIn() : index(-1), state(true) { assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE); }
+	FastIn& operator>>(bool& b)       { const char* cstr = next_chars();
 		b = (!lowercmp(cstr, "true") ? true : (!lowercmp(cstr, "false") ? false : atoll2(cstr)));
 		return *this; }
-	fastin& operator>>(char& c)       { char tmp = next_char(); c = (tmp ? tmp : c); return *this; }
-	fastin& operator>>(char* s)       { strcpy(s, next_chars()); return *this;   }
-	fastin& operator>>(string& s)     { s = string(next_chars()); return *this;  }
-	fastin& operator>>(double& d)     { d = atof(next_chars()); return *this;    }
-	fastin& operator>>(float& f)      { f = atof(next_chars()); return *this;    }
-	fastin& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this; }
-	fastin& operator>>(long& l)       { l = atoll2(next_chars()); return *this;  }
-	fastin& operator>>(int& i)        { i = atoll2(next_chars()); return *this;  }
-	fastin& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this; }
-	fastin& operator>>(unsigned long long& ull) { try { ull = stoull(next_chars()); } catch (...) {} return *this; }
-	fastin& operator>>(unsigned long& ul)       { try { ul = stoul(next_chars()); } catch (...) {} return *this;   }
-	fastin& operator>>(unsigned int& ui)        { try { ui = stoul(next_chars()); } catch (...) {} return *this;   }
-	fastin& operator>>(unsigned short& ush)     { try { ush = stoul(next_chars()); } catch (...) {} return *this;  }
+	FastIn& operator>>(char& c)       { char tmp = next_char(); c = (tmp ? tmp : c); return *this; }
+	FastIn& operator>>(char* s)       { strcpy(s, next_chars()); return *this;   }
+	FastIn& operator>>(string& s)     { s = string(next_chars()); return *this;  }
+	FastIn& operator>>(double& d)     { d = atof(next_chars()); return *this;    }
+	FastIn& operator>>(float& f)      { f = atof(next_chars()); return *this;    }
+	FastIn& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this; }
+	FastIn& operator>>(long& l)       { l = atoll2(next_chars()); return *this;  }
+	FastIn& operator>>(int& i)        { i = atoll2(next_chars()); return *this;  }
+	FastIn& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this; }
+	FastIn& operator>>(unsigned long long& ull) { try { ull = stoull(next_chars()); } catch (...) {} return *this; }
+	FastIn& operator>>(unsigned long& ul)       { try { ul = stoul(next_chars()); } catch (...) {} return *this;   }
+	FastIn& operator>>(unsigned int& ui)        { try { ui = stoul(next_chars()); } catch (...) {} return *this;   }
+	FastIn& operator>>(unsigned short& ush)     { try { ush = stoul(next_chars()); } catch (...) {} return *this;  }
 	operator bool() { return state; }
 } fin;
-static class fastout {
+static class FastOut {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int size;
 public:
-	~fastout() { assert(size == (int) write(1, buffer, size)); }
-	fastout& operator<<(const bool& b)       { return (b ? *this << "true" : *this << "false"); }
-	fastout& operator<<(const char& c)       { buffer[size++] = c; return *this; }
-	fastout& operator<<(const char* s)       { int len = strlen(s); memcpy(buffer + size, s, len); size += len; return *this; }
-	fastout& operator<<(const string& s)     { memcpy(buffer + size, s.c_str(), s.size()); size += s.size(); return *this; }
-	fastout& operator<<(const double& d)     { return *this << to_string(d);  }
-	fastout& operator<<(const float& f)      { return *this << to_string(f);  }
-	fastout& operator<<(const long long& ll) { return *this << to_string(ll); }
-	fastout& operator<<(const long& l)       { return *this << to_string(l);  }
-	fastout& operator<<(const int& i)        { return *this << to_string(i);  }
-	fastout& operator<<(const short& sh)     { return *this << to_string(sh); }
-	fastout& operator<<(const unsigned long long& ull) { return *this << to_string(ull); }
-	fastout& operator<<(const unsigned long& ul)       { return *this << to_string(ul);  }
-	fastout& operator<<(const unsigned int& ui)        { return *this << to_string(ui);  }
-	fastout& operator<<(const unsigned short& ush)     { return *this << to_string(ush); }
+	~FastOut() { assert(size == (int) write(1, buffer, size)); }
+	FastOut& operator<<(const bool& b)       { return (b ? *this << "true" : *this << "false"); }
+	FastOut& operator<<(const char& c)       { buffer[size++] = c; return *this; }
+	FastOut& operator<<(const char* s)       { int len = strlen(s); memcpy(buffer + size, s, len); size += len; return *this; }
+	FastOut& operator<<(const string& s)     { memcpy(buffer + size, s.c_str(), s.size()); size += s.size(); return *this; }
+	FastOut& operator<<(const double& d)     { return *this << to_string(d);  }
+	FastOut& operator<<(const float& f)      { return *this << to_string(f);  }
+	FastOut& operator<<(const long long& ll) { return *this << to_string(ll); }
+	FastOut& operator<<(const long& l)       { return *this << to_string(l);  }
+	FastOut& operator<<(const int& i)        { return *this << to_string(i);  }
+	FastOut& operator<<(const short& sh)     { return *this << to_string(sh); }
+	FastOut& operator<<(const unsigned long long& ull) { return *this << to_string(ull); }
+	FastOut& operator<<(const unsigned long& ul)       { return *this << to_string(ul);  }
+	FastOut& operator<<(const unsigned int& ui)        { return *this << to_string(ui);  }
+	FastOut& operator<<(const unsigned short& ush)     { return *this << to_string(ush); }
 } fout;
 #ifdef __TINY__
-static class timetracker {
+using namespace chrono;
+static class TimeTracker {
 	time_point<system_clock> begin, end;
 public:
-	timetracker() { begin = system_clock::now(); }
-	~timetracker() { end = system_clock::now(); fout << '\n' << microseconds(end - begin).count() << " us\n"; }
+	TimeTracker() { begin = system_clock::now(); }
+	~TimeTracker() { end = system_clock::now(); fout << '\n' << microseconds(end - begin).count() << " us\n"; }
 } _time_tracker;
 #endif
-#define int int64_t
+#define int long long
 #define F first
 #define S second
 
