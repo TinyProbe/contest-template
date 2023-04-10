@@ -9,7 +9,6 @@
 	signed main() { untieio; testcase(N); assert(fin && !(fin >> tc)); }\
 	void solve()
 using namespace std;
-
 static class FastIn {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
