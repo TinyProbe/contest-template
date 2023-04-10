@@ -3,7 +3,7 @@
 #define F first
 #define S second
 #define testcase(N)\
-	int tc; for (N ? tc=N : fin>>tc; tc>0; --tc) solve()
+	int tc; for (N ? tc = N : fin >> tc; tc > 0; --tc) solve()
 #define __MAIN__(N)\
 	void solve();\
 	int main() { testcase(N); assert(fin && !(fin >> tc)); }
@@ -13,18 +13,23 @@ class fastin {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int index, size;
-	bool state, wspace[256];
+	bool state;
 private:
 	const char* next_chars() {
 		if (index == size) { state = false; return buffer + index; }
-		while (++index < size && wspace[(int) buffer[index]]);
+		while (++index < size && isspace(buffer[index]));
 		int l = index--;
-		while (++index < size) {
-			if (wspace[(int) buffer[index]]) break;
-		}
+		while (++index < size)
+			if (isspace(buffer[index])) break;
 		buffer[index] = '\0';
 		state = index != l;
 		return buffer + l;
+	}
+	char next_char() {
+		if (index == size) { state = false; return '\0'; }
+		while (++index < size && isspace(buffer[index]));
+		if (index == size) { state = false; return '\0'; }
+		return buffer[index];
 	}
 	long long atoll2(const char* s) {
 		long long ll = 0, sign = 1;
@@ -33,14 +38,15 @@ private:
 		return ll * sign;
 	}
 public:
-	fastin() : index(-1), state(true) {
-		assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE);
-		for (int i = 9; i <= 13; ++i) { wspace[i] = true; }
-		wspace[32] = true;
+	fastin() : index(-1), state(true) { assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE); }
+	fastin& operator>>(bool& b)       {
+		const char* cstr = next_chars();
+		b = (!strcmp(cstr, "true") ? true : (!strcmp(cstr, "false") ? false : atoll2(cstr)));
+		return *this;
 	}
+	fastin& operator>>(char& c)       { char tmp = next_char(); c = (tmp ? tmp : c); return *this; }
+	fastin& operator>>(char* cstr)    { strcpy(cstr, next_chars()); return *this;   }
 	fastin& operator>>(string& s)     { s = string(next_chars()); return *this;  }
-	fastin& operator>>(char& c)       { c = buffer[index++]; return *this;       }
-	fastin& operator>>(char* s)       { strcpy(s, next_chars()); return *this;   }
 	fastin& operator>>(double& d)     { d = atof(next_chars()); return *this;    }
 	fastin& operator>>(float& f)      { f = atof(next_chars()); return *this;    }
 	fastin& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this; }
@@ -59,9 +65,10 @@ class fastout {
 	int size;
 public:
 	~fastout() { assert(size == (int) write(1, buffer, size)); }
-	fastout& operator<<(const string& s)     { memcpy(buffer + size, s.c_str(), s.size()); size += s.size(); return *this; }
+	fastout& operator<<(const bool& b)       { return (b ? *this << "true" : *this << "false"); }
 	fastout& operator<<(const char& c)       { buffer[size++] = c; return *this; }
-	fastout& operator<<(const char* s)       { int len = strlen(s); memcpy(buffer + size, s, len); size += len; return *this; }
+	fastout& operator<<(const char* cstr)    { int len = strlen(cstr); memcpy(buffer + size, cstr, len); size += len; return *this; }
+	fastout& operator<<(const string& s)     { memcpy(buffer + size, s.c_str(), s.size()); size += s.size(); return *this; }
 	fastout& operator<<(const double& d)     { return *this << to_string(d);  }
 	fastout& operator<<(const float& f)      { return *this << to_string(f);  }
 	fastout& operator<<(const long long& ll) { return *this << to_string(ll); }
@@ -77,6 +84,8 @@ static fastin fin;
 static fastout fout;
 
 __MAIN__(1);
-void solve() {
+#define int int64_t
 
+void solve() {
+	
 }
