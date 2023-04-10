@@ -37,22 +37,26 @@ private:
 		while (*s && isdigit(*s)) { ll = ll * 10 + (*s++ - '0'); }
 		return ll * sign;
 	}
+	int lowercmp(const char* s1, const char* s2) {
+		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) ++s1, ++s2;
+		return *s1 - *s2;
+	}
 public:
 	fastin() : index(-1), state(true) { assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE); }
 	fastin& operator>>(bool& b)       {
 		const char* cstr = next_chars();
-		b = (!strcmp(cstr, "true") ? true : (!strcmp(cstr, "false") ? false : atoll2(cstr)));
+		b = (!lowercmp(cstr, "true") ? true : (!lowercmp(cstr, "false") ? false : atoll2(cstr)));
 		return *this;
 	}
 	fastin& operator>>(char& c)       { char tmp = next_char(); c = (tmp ? tmp : c); return *this; }
-	fastin& operator>>(char* cstr)    { strcpy(cstr, next_chars()); return *this;   }
-	fastin& operator>>(string& s)     { s = string(next_chars()); return *this;  }
-	fastin& operator>>(double& d)     { d = atof(next_chars()); return *this;    }
-	fastin& operator>>(float& f)      { f = atof(next_chars()); return *this;    }
-	fastin& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this; }
-	fastin& operator>>(long& l)       { l = atoll2(next_chars()); return *this;  }
-	fastin& operator>>(int& i)        { i = atoll2(next_chars()); return *this;  }
-	fastin& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this; }
+	fastin& operator>>(char* cstr)    { strcpy(cstr, next_chars()); return *this; }
+	fastin& operator>>(string& s)     { s = string(next_chars()); return *this;   }
+	fastin& operator>>(double& d)     { d = atof(next_chars()); return *this;     }
+	fastin& operator>>(float& f)      { f = atof(next_chars()); return *this;     }
+	fastin& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this;  }
+	fastin& operator>>(long& l)       { l = atoll2(next_chars()); return *this;   }
+	fastin& operator>>(int& i)        { i = atoll2(next_chars()); return *this;   }
+	fastin& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this;  }
 	fastin& operator>>(unsigned long long& ull) { ull = stoull(next_chars()); return *this; }
 	fastin& operator>>(unsigned long& ul)       { ul = stoul(next_chars()); return *this;   }
 	fastin& operator>>(unsigned int& ui)        { ui = stoul(next_chars()); return *this;   }
@@ -83,9 +87,9 @@ public:
 static fastin fin;
 static fastout fout;
 
-__MAIN__(1);
+__MAIN__(0);
 #define int int64_t
 
 void solve() {
-	
+
 }
