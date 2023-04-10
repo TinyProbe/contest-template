@@ -1,15 +1,16 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
-#define F first
-#define S second
+#define untieio\
+	cin.tie(0)->ios::sync_with_stdio(0)
 #define testcase(N)\
 	int tc; for (N ? tc = N : fin >> tc; tc > 0; --tc) solve()
 #define __MAIN__(N)\
 	void solve();\
-	int main() { testcase(N); assert(fin && !(fin >> tc)); }
+	signed main() { untieio; testcase(N); assert(fin && !(fin >> tc)); }
 using namespace std;
+using namespace chrono;
 
-class fastin {
+static class fastin {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int index, size;
@@ -19,10 +20,8 @@ private:
 		if (index == size) { state = false; return buffer + index; }
 		while (++index < size && isspace(buffer[index]));
 		int l = index--;
-		while (++index < size)
-			if (isspace(buffer[index])) break;
-		buffer[index] = '\0';
-		state = index != l;
+		while (++index < size) if (isspace(buffer[index])) break;
+		buffer[index] = '\0', state = index != l;
 		return buffer + l;
 	}
 	char next_char() {
@@ -43,27 +42,25 @@ private:
 	}
 public:
 	fastin() : index(-1), state(true) { assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE); }
-	fastin& operator>>(bool& b)       {
-		const char* cstr = next_chars();
+	fastin& operator>>(bool& b)       { const char* cstr = next_chars();
 		b = (!lowercmp(cstr, "true") ? true : (!lowercmp(cstr, "false") ? false : atoll2(cstr)));
-		return *this;
-	}
+		return *this; }
 	fastin& operator>>(char& c)       { char tmp = next_char(); c = (tmp ? tmp : c); return *this; }
-	fastin& operator>>(char* cstr)    { strcpy(cstr, next_chars()); return *this; }
-	fastin& operator>>(string& s)     { s = string(next_chars()); return *this;   }
-	fastin& operator>>(double& d)     { d = atof(next_chars()); return *this;     }
-	fastin& operator>>(float& f)      { f = atof(next_chars()); return *this;     }
-	fastin& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this;  }
-	fastin& operator>>(long& l)       { l = atoll2(next_chars()); return *this;   }
-	fastin& operator>>(int& i)        { i = atoll2(next_chars()); return *this;   }
-	fastin& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this;  }
-	fastin& operator>>(unsigned long long& ull) { ull = stoull(next_chars()); return *this; }
-	fastin& operator>>(unsigned long& ul)       { ul = stoul(next_chars()); return *this;   }
-	fastin& operator>>(unsigned int& ui)        { ui = stoul(next_chars()); return *this;   }
-	fastin& operator>>(unsigned short& ush)     { ush = stoul(next_chars()); return *this;  }
+	fastin& operator>>(char* s)       { strcpy(s, next_chars()); return *this;   }
+	fastin& operator>>(string& s)     { s = string(next_chars()); return *this;  }
+	fastin& operator>>(double& d)     { d = atof(next_chars()); return *this;    }
+	fastin& operator>>(float& f)      { f = atof(next_chars()); return *this;    }
+	fastin& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this; }
+	fastin& operator>>(long& l)       { l = atoll2(next_chars()); return *this;  }
+	fastin& operator>>(int& i)        { i = atoll2(next_chars()); return *this;  }
+	fastin& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this; }
+	fastin& operator>>(unsigned long long& ull) { try { ull = stoull(next_chars()); } catch (...) {} return *this; }
+	fastin& operator>>(unsigned long& ul)       { try { ul = stoul(next_chars()); } catch (...) {} return *this;   }
+	fastin& operator>>(unsigned int& ui)        { try { ui = stoul(next_chars()); } catch (...) {} return *this;   }
+	fastin& operator>>(unsigned short& ush)     { try { ush = stoul(next_chars()); } catch (...) {} return *this;  }
 	operator bool() { return state; }
-};
-class fastout {
+} fin;
+static class fastout {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int size;
@@ -71,7 +68,7 @@ public:
 	~fastout() { assert(size == (int) write(1, buffer, size)); }
 	fastout& operator<<(const bool& b)       { return (b ? *this << "true" : *this << "false"); }
 	fastout& operator<<(const char& c)       { buffer[size++] = c; return *this; }
-	fastout& operator<<(const char* cstr)    { int len = strlen(cstr); memcpy(buffer + size, cstr, len); size += len; return *this; }
+	fastout& operator<<(const char* s)       { int len = strlen(s); memcpy(buffer + size, s, len); size += len; return *this; }
 	fastout& operator<<(const string& s)     { memcpy(buffer + size, s.c_str(), s.size()); size += s.size(); return *this; }
 	fastout& operator<<(const double& d)     { return *this << to_string(d);  }
 	fastout& operator<<(const float& f)      { return *this << to_string(f);  }
@@ -83,13 +80,20 @@ public:
 	fastout& operator<<(const unsigned long& ul)       { return *this << to_string(ul);  }
 	fastout& operator<<(const unsigned int& ui)        { return *this << to_string(ui);  }
 	fastout& operator<<(const unsigned short& ush)     { return *this << to_string(ush); }
-};
-static fastin fin;
-static fastout fout;
+} fout;
+#ifdef __TINY__
+static class timetracker {
+	time_point<system_clock> begin, end;
+public:
+	timetracker() { begin = system_clock::now(); }
+	~timetracker() { end = system_clock::now(); fout << '\n' << microseconds(end - begin).count() << " us\n"; }
+} _time_tracker;
+#endif
+#define int int64_t
+#define F first
+#define S second
 
 __MAIN__(0);
-#define int int64_t
-
 void solve() {
-
+	
 }
