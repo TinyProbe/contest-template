@@ -83,11 +83,11 @@ public:
 #ifdef __TINY__
 using namespace chrono;
 static class TimeTracker {
-	time_point<system_clock> begin, end;
+	time_point<system_clock> b, e;
 public:
-	TimeTracker() { begin = system_clock::now(); }
-	~TimeTracker() { end = system_clock::now(); fout << '\n' << microseconds(end - begin).count() << " us\n"; }
-} _time_tracker;
+	TimeTracker() { b = system_clock::now(); }
+	~TimeTracker() { e = system_clock::now(); fout << '\n' << microseconds(e - b).count() << " us\n"; }
+} time_tracker__;
 #endif
 #define int long long
 #define F first

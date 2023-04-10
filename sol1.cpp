@@ -83,11 +83,11 @@ public:
 #ifdef __TINY__
 using namespace chrono;
 static class TimeTracker {
-	time_point<system_clock> begin, end;
+	time_point<system_clock> b, e;
 public:
-	TimeTracker() { begin = system_clock::now(); }
-	~TimeTracker() { end = system_clock::now(); fout << '\n' << microseconds(end - begin).count() << " us\n"; }
-} _time_tracker;
+	TimeTracker() { b = system_clock::now(); }
+	~TimeTracker() { e = system_clock::now(); fout << '\n' << microseconds(e - b).count() << " us\n"; }
+} time_tracker__;
 #endif
 #define int long long
 #define F first
@@ -95,5 +95,17 @@ public:
 
 __MAIN__(0);
 void solve() {
+	int n, c, d;
+	fin >> n >> c >> d;
+	vector<int> a(n);
+	for (int i = 0; i < n; ++i) {
+		fin >> a[i];
+	}
+	sort(a.rbegin(), a.rend());
+	for (int i = 1; i < n; ++i) {
+		a[i] += a[i - 1];
+	}
+	if (a.front() * d < c) { fout << "Impossible\n"; return; }
+	if (a[min(d - 1, n - 1)] >= c) { fout << "Infinity\n"; return; }
 	
 }
