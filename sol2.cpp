@@ -88,7 +88,7 @@ static FastOut fout;
 #define TESTCASE(N) int t; for (N ? t=N : fin>>t; t>0; --t) solve()
 #define SOLUTION(N)\
 	void solve();\
-	signed main() { TIEIO; TESTCASE(N); assert(fin && !(fin >> tc)); }\
+	signed main() { TIEIO; TESTCASE(N); assert(fin && !(fin >> t)); }\
 	void solve()
 #ifdef __TINY__
 using namespace chrono;
