@@ -1,15 +1,8 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
-#define untieio\
-	cin.tie(0)->ios::sync_with_stdio(0)
-#define testcase(N)\
-	int tc; for (N ? tc = N : fin >> tc; tc > 0; --tc) solve()
-#define __MAIN__(N)\
-	void solve();\
-	signed main() { untieio; testcase(N); assert(fin && !(fin >> tc)); }\
-	void solve()
 using namespace std;
-static class FastIn {
+
+class FastIn {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int index, size;
@@ -19,7 +12,7 @@ private:
 		if (index == size) { state = false; return buffer + index; }
 		while (++index < size && isspace(buffer[index]));
 		int l = index--;
-		while (++index < size) if (isspace(buffer[index])) break;
+		while (++index < size && !isspace(buffer[index]));
 		buffer[index] = '\0', state = index != l;
 		return buffer + l;
 	}
@@ -31,16 +24,21 @@ private:
 	}
 	long long atoll2(const char* s) {
 		long long ll = 0, sign = 1;
-		if (*s == '+' || *s == '-') { sign = -(*s++ - ','); }
-		while (*s && isdigit(*s)) { ll = ll * 10 + (*s++ - '0'); }
+		if (*s == '+' || *s == '-') sign = -(*s++ - ',');
+		while (*s && isdigit(*s)) ll = ll * 10 + (*s++ - '0');
 		return ll * sign;
+	}
+	unsigned long long atoull2(const char* s) {
+		unsigned long long ull = 0;
+		while (*s && isdigit(*s)) ull = ull * 10 + (*s++ - '0');
+		return ull;
 	}
 	int lowercmp(const char* s1, const char* s2) {
 		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) ++s1, ++s2;
 		return *s1 - *s2;
 	}
 public:
-	FastIn() : index(-1), state(true) { assert((size = (int) read(0, buffer, MAX_SIZE)) < MAX_SIZE); }
+	FastIn() : index(-1), state(true) { assert((size = (int) fread(buffer, 1, MAX_SIZE, stdin)) < MAX_SIZE); }
 	FastIn& operator>>(bool& b)       { const char* cstr = next_chars();
 		b = (!lowercmp(cstr, "true") ? true : (!lowercmp(cstr, "false") ? false : atoll2(cstr)));
 		return *this; }
@@ -53,18 +51,18 @@ public:
 	FastIn& operator>>(long& l)       { l = atoll2(next_chars()); return *this;  }
 	FastIn& operator>>(int& i)        { i = atoll2(next_chars()); return *this;  }
 	FastIn& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this; }
-	FastIn& operator>>(unsigned long long& ull) { try { ull = stoull(next_chars()); } catch (...) {} return *this; }
-	FastIn& operator>>(unsigned long& ul)       { try { ul = stoul(next_chars()); } catch (...) {} return *this;   }
-	FastIn& operator>>(unsigned int& ui)        { try { ui = stoul(next_chars()); } catch (...) {} return *this;   }
-	FastIn& operator>>(unsigned short& ush)     { try { ush = stoul(next_chars()); } catch (...) {} return *this;  }
+	FastIn& operator>>(unsigned long long& ull) { ull = atoull2(next_chars()); return *this; }
+	FastIn& operator>>(unsigned long& ul)       { ul = atoull2(next_chars()); return *this;  }
+	FastIn& operator>>(unsigned int& ui)        { ui = atoull2(next_chars()); return *this;  }
+	FastIn& operator>>(unsigned short& ush)     { ush = atoull2(next_chars()); return *this; }
 	operator bool() { return state; }
-} fin;
-static class FastOut {
+};
+class FastOut {
 	static constexpr int MAX_SIZE = 25e6;
 	char buffer[MAX_SIZE];
 	int size;
 public:
-	~FastOut() { assert(size == (int) write(1, buffer, size)); }
+	~FastOut() { assert(size == (int) fwrite(buffer, 1, size, stdout)); }
 	FastOut& operator<<(const bool& b)       { return (b ? *this << "true" : *this << "false"); }
 	FastOut& operator<<(const char& c)       { buffer[size++] = c; return *this; }
 	FastOut& operator<<(const char* s)       { int len = strlen(s); memcpy(buffer + size, s, len); size += len; return *this; }
@@ -79,20 +77,29 @@ public:
 	FastOut& operator<<(const unsigned long& ul)       { return *this << to_string(ul);  }
 	FastOut& operator<<(const unsigned int& ui)        { return *this << to_string(ui);  }
 	FastOut& operator<<(const unsigned short& ush)     { return *this << to_string(ush); }
-} fout;
+};
+static FastIn fin;
+static FastOut fout;
+
+#define int long long
+#define F first
+#define S second
+#define TIEIO cin.tie(0)->ios::sync_with_stdio(0)
+#define TESTCASE(N) int t; for (N ? t=N : fin>>t; t>0; --t) solve()
+#define SOLUTION(N)\
+	void solve();\
+	signed main() { TIEIO; TESTCASE(N); assert(fin && !(fin >> tc)); }\
+	void solve()
 #ifdef __TINY__
 using namespace chrono;
-static class TimeTracker {
+class TimeTracker {
 	time_point<system_clock> b, e;
 public:
 	TimeTracker() { b = system_clock::now(); }
 	~TimeTracker() { e = system_clock::now(); fout << '\n' << microseconds(e - b).count() << " us\n"; }
 } time_tracker__;
 #endif
-#define int long long
-#define F first
-#define S second
 
-__MAIN__(0) {
+SOLUTION(0) {
 	
 }
