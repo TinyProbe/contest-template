@@ -84,7 +84,7 @@ static FastOut fout;
 #define int long long
 #define F first
 #define S second
-#define untieio cin.tie(0)->ios::sync_with_stdio(0)
+#define untieio cin.tie(0)->sync_with_stdio(0)
 #define testcase(N) int t; for (N ? t=N : bool(cin>>t); t>0; --t) solve()
 #define solution(N)\
 	void solve();\
