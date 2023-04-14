@@ -51,8 +51,8 @@ public:
 	FastIn& operator>>(char& c)       { c = next_char(c);               return *this; }
 	FastIn& operator>>(char* s)       { strcpy(s, next_word().c_str()); return *this; }
 	FastIn& operator>>(string& s)     { s = next_word();                return *this; }
-	FastIn& operator>>(double& d)     { d = stod(next_word());          return *this; }
-	FastIn& operator>>(float& f)      { f = stof(next_word());          return *this; }
+	FastIn& operator>>(double& d)     { try { d = stod(next_word()); } catch (...) {} return *this; }
+	FastIn& operator>>(float& f)      { try { f = stof(next_word()); } catch (...) {} return *this; }
 	FastIn& operator>>(long long& ll) { ll = stoll2(next_word());       return *this; }
 	FastIn& operator>>(long& l)       { l = stoll2(next_word());        return *this; }
 	FastIn& operator>>(int& i)        { i = stoll2(next_word());        return *this; }
