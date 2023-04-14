@@ -1,82 +1,86 @@
 #include <bits/stdc++.h>
-#include <unistd.h>
 using namespace std;
 
 class FastIn {
-	static constexpr int MAX_SIZE = 25e6;
+	static constexpr int MAX_SIZE = 1e5;
 	char buffer[MAX_SIZE];
 	int index, size;
-	bool state;
+	bool state, space[1 << 8], digit[1 << 8];
+	string word;
 private:
-	const char* next_chars() {
-		if (index == size) { state = false; return buffer + index; }
-		while (++index < size && isspace(buffer[index]));
-		int l = index--;
-		while (++index < size && !isspace(buffer[index]));
-		buffer[index] = '\0', state = index != l;
-		return buffer + l;
+	char sys_getchar() {
+		if (index == size) { index = 0, size = fread(buffer, 1, MAX_SIZE, stdin); }
+		return size ? buffer[index++] : (state = false);
 	}
-	char next_char() {
-		if (index == size) { state = false; return '\0'; }
-		while (++index < size && isspace(buffer[index]));
-		if (index == size) { state = false; return '\0'; }
-		return buffer[index];
+	char next_char(char c) {
+		char c2;
+		while (space[(int) (c2 = sys_getchar())]) {}
+		return c2 ? c2 : c;
 	}
-	long long atoll2(const char* s) {
-		long long ll = 0, sign = 1;
-		if (*s == '+' || *s == '-') sign = -(*s++ - ',');
-		while (*s && isdigit(*s)) ll = ll * 10 + (*s++ - '0');
+	const string& next_word() {
+		char c; word.clear();
+		while (space[(int) (c = sys_getchar())]) {}
+		while (!space[(int) c] && c) { word += c, c = sys_getchar(); }
+		return word;
+	}
+	long long stoll2(const string& s) {
+		long long ll = 0, sign = 1; int i = 0;
+		if (s.size() && (s[i] == '+' || s[i] == '-')) { sign = -(s[i++] - ','); }
+		while (i < (int) s.size() && digit[(int) s[i]]) { ll = ll * 10 + (s[i++] - '0'); }
 		return ll * sign;
 	}
-	unsigned long long atoull2(const char* s) {
-		unsigned long long ull = 0;
-		while (*s && isdigit(*s)) ull = ull * 10 + (*s++ - '0');
+	unsigned long long stoull2(const string& s) {
+		unsigned long long ull = 0; int i = 0;
+		while (i < (int) s.size() && digit[(int) s[i]]) { ull = ull * 10 + (s[i++] - '0'); }
 		return ull;
 	}
-	int lowercmp(const char* s1, const char* s2) {
-		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) ++s1, ++s2;
-		return *s1 - *s2;
+	int lowcmp(const string& s1, const string& s2) {
+		int i = -1;
+		while (++i < (int) min(s1.size(), s2.size()) && tolower(s1[i]) == tolower(s2[i])) {}
+		int c1 = (i < (int) s1.size() ? tolower(s1[i]) : '\0');
+		int c2 = (i < (int) s2.size() ? tolower(s2[i]) : '\0');
+		return c1 - c2;
 	}
 public:
-	FastIn() : index(-1), state(true) { assert((size = (int) fread(buffer, 1, MAX_SIZE, stdin)) < MAX_SIZE); }
-	FastIn& operator>>(bool& b)       { const char* cstr = next_chars();
-		b = (!lowercmp(cstr, "true") ? true : (!lowercmp(cstr, "false") ? false : atoll2(cstr)));
-		return *this; }
-	FastIn& operator>>(char& c)       { char tmp = next_char(); c = (tmp ? tmp : c); return *this; }
-	FastIn& operator>>(char* s)       { strcpy(s, next_chars()); return *this;   }
-	FastIn& operator>>(string& s)     { s = string(next_chars()); return *this;  }
-	FastIn& operator>>(double& d)     { d = atof(next_chars()); return *this;    }
-	FastIn& operator>>(float& f)      { f = atof(next_chars()); return *this;    }
-	FastIn& operator>>(long long& ll) { ll = atoll2(next_chars()); return *this; }
-	FastIn& operator>>(long& l)       { l = atoll2(next_chars()); return *this;  }
-	FastIn& operator>>(int& i)        { i = atoll2(next_chars()); return *this;  }
-	FastIn& operator>>(short& sh)     { sh = atoll2(next_chars()); return *this; }
-	FastIn& operator>>(unsigned long long& ull) { ull = atoull2(next_chars()); return *this; }
-	FastIn& operator>>(unsigned long& ul)       { ul = atoull2(next_chars()); return *this;  }
-	FastIn& operator>>(unsigned int& ui)        { ui = atoull2(next_chars()); return *this;  }
-	FastIn& operator>>(unsigned short& ush)     { ush = atoull2(next_chars()); return *this; }
+	FastIn() : index(), size(), state(true) {
+		space[32] = true;
+		for (int i = 9; i <= 13; ++i) { space[i] = true; }
+		for (int i = '0'; i <= '9'; ++i) { digit[i] = true; }
+	}
+	FastIn& operator>>(bool& b)       { b = (!lowcmp(next_word(), "true") ? true : (!lowcmp(word, "false") ? false : stoll2(word))); return *this; }
+	FastIn& operator>>(char& c)       { c = next_char(c);               return *this; }
+	FastIn& operator>>(char* s)       { strcpy(s, next_word().c_str()); return *this; }
+	FastIn& operator>>(string& s)     { s = next_word();                return *this; }
+	FastIn& operator>>(double& d)     { d = stod(next_word());          return *this; }
+	FastIn& operator>>(float& f)      { f = stof(next_word());          return *this; }
+	FastIn& operator>>(long long& ll) { ll = stoll2(next_word());       return *this; }
+	FastIn& operator>>(long& l)       { l = stoll2(next_word());        return *this; }
+	FastIn& operator>>(int& i)        { i = stoll2(next_word());        return *this; }
+	FastIn& operator>>(short& sh)     { sh = stoll2(next_word());       return *this; }
+	FastIn& operator>>(unsigned long long& ull) { ull = stoull2(next_word()); return *this; }
+	FastIn& operator>>(unsigned long& ul)       { ul = stoull2(next_word());  return *this; }
+	FastIn& operator>>(unsigned int& ui)        { ui = stoull2(next_word());  return *this; }
+	FastIn& operator>>(unsigned short& ush)     { ush = stoull2(next_word()); return *this; }
 	operator bool() { return state; }
 };
 class FastOut {
-	static constexpr int MAX_SIZE = 25e6;
-	char buffer[MAX_SIZE];
-	int size;
+	string buffer;
 public:
-	~FastOut() { assert(size == (int) fwrite(buffer, 1, size, stdout)); }
-	FastOut& operator<<(const bool& b)       { return (b ? *this << "true" : *this << "false"); }
-	FastOut& operator<<(const char& c)       { buffer[size++] = c; return *this; }
-	FastOut& operator<<(const char* s)       { int len = strlen(s); memcpy(buffer + size, s, len); size += len; return *this; }
-	FastOut& operator<<(const string& s)     { memcpy(buffer + size, s.c_str(), s.size()); size += s.size(); return *this; }
-	FastOut& operator<<(const double& d)     { return *this << to_string(d);  }
-	FastOut& operator<<(const float& f)      { return *this << to_string(f);  }
-	FastOut& operator<<(const long long& ll) { return *this << to_string(ll); }
-	FastOut& operator<<(const long& l)       { return *this << to_string(l);  }
-	FastOut& operator<<(const int& i)        { return *this << to_string(i);  }
-	FastOut& operator<<(const short& sh)     { return *this << to_string(sh); }
-	FastOut& operator<<(const unsigned long long& ull) { return *this << to_string(ull); }
-	FastOut& operator<<(const unsigned long& ul)       { return *this << to_string(ul);  }
-	FastOut& operator<<(const unsigned int& ui)        { return *this << to_string(ui);  }
-	FastOut& operator<<(const unsigned short& ush)     { return *this << to_string(ush); }
+	~FastOut() { assert(buffer.size() == fwrite(buffer.c_str(), 1, buffer.size(), stdout)); }
+	FastOut& operator<<(bool b)          { return (b ? *this << "true" : *this << "false"); }
+	FastOut& operator<<(char c)          { buffer += c; return *this; }
+	FastOut& operator<<(const char* s)   { buffer += s; return *this; }
+	FastOut& operator<<(const string& s) { buffer += s; return *this; }
+	FastOut& operator<<(double d)        { return *this << to_string(d);  }
+	FastOut& operator<<(float f)         { return *this << to_string(f);  }
+	FastOut& operator<<(long long ll)    { return *this << to_string(ll); }
+	FastOut& operator<<(long l)          { return *this << to_string(l);  }
+	FastOut& operator<<(int i)           { return *this << to_string(i);  }
+	FastOut& operator<<(short sh)        { return *this << to_string(sh); }
+	FastOut& operator<<(unsigned long long ull) { return *this << to_string(ull); }
+	FastOut& operator<<(unsigned long ul)       { return *this << to_string(ul);  }
+	FastOut& operator<<(unsigned int ui)        { return *this << to_string(ui);  }
+	FastOut& operator<<(unsigned short ush)     { return *this << to_string(ush); }
 };
 static FastIn fin;
 static FastOut fout;
@@ -84,13 +88,13 @@ static FastOut fout;
 #define int long long
 #define F first
 #define S second
-#define untieio cin.tie(0)->sync_with_stdio(0)
-#define testcase(N) int t; for (N ? t=N : bool(cin>>t); t>0; --t) solve()
+#define untie cin.tie(0)->sync_with_stdio(0)
+#define testcase(N) int t; for (N ? t=N : bool(fin>>t); t>0; --t) solve()
 #define solution(N)\
 	void solve();\
-	signed main() { untieio; testcase(N); assert(cin && !(cin>>t)); }\
+	signed main() { untie; testcase(N); assert(fin && !(fin>>t)); }\
 	void solve()
 
-solution(0) {
+solution(1) {
 
 }
