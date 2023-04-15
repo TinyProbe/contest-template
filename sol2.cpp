@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 class FastIO {
 	static constexpr int MAX_SIZE = 1e5;
 	char i_buffer[MAX_SIZE], *pb, *pe;
