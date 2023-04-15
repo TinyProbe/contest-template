@@ -77,8 +77,7 @@ public:
 	FastIO& operator<<(unsigned int ui)        { return *this << to_string(ui);  }
 	FastIO& operator<<(unsigned short ush)     { return *this << to_string(ush); }
 	operator bool() { return state; }
-};
-FastIO fio;
+} fio;
 #define int long long
 #define F first
 #define S second
