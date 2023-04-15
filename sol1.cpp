@@ -6,12 +6,13 @@ class FastIO {
 	string o_buffer, word;
 	bool state;
 private:
+	inline char sys_getchar() { return pb == pe && (pe = (pb = i_buffer) + fread(i_buffer, 1, MAX_SIZE, stdin), pb == pe) ? (state = false) : *pb++; }
 	inline bool isspace2(int c) { return (c >= 9 && c <= 13) || c == 32; }
 	inline bool isdigit2(int c) { return c >= '0' && c <= '9'; }
 	template <typename T>
 	inline bool isliteral(const T& type) {
 		(void) type;
-		return (typeid(typename T::value_type) == typeid(bool) ||
+		return typeid(typename T::value_type) == typeid(bool) ||
 				typeid(typename T::value_type) == typeid(char) ||
 				typeid(typename T::value_type) == typeid(char*) ||
 				typeid(typename T::value_type) == typeid(string) ||
@@ -24,13 +25,12 @@ private:
 				typeid(typename T::value_type) == typeid(unsigned long long) ||
 				typeid(typename T::value_type) == typeid(unsigned long) ||
 				typeid(typename T::value_type) == typeid(unsigned int) ||
-				typeid(typename T::value_type) == typeid(unsigned short));
+				typeid(typename T::value_type) == typeid(unsigned short);
 	}
 	inline int lowercmp(const char* s1, const char* s2) {
 		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) ++s1, ++s2;
 		return *s1 - *s2;
 	}
-	inline char sys_getchar() { return pb == pe && (pe = (pb = i_buffer) + fread(i_buffer, 1, MAX_SIZE, stdin), pb == pe) ? (state = false) : *pb++; }
 	inline bool next_bool() {
 		const char* s = next_word().c_str();
 		return !lowercmp(s, "true") ? true : (!lowercmp(s, "false") ? false : atoll(s));
@@ -62,8 +62,12 @@ private:
 		return ull;
 	}
 public:
+	inline void setdelimiter(int c) { delimiter = c; }
+
 	FastIO() : pb(), pe(), delimiter(' '), state(true) {}
 	~FastIO() { assert(o_buffer.size() == fwrite(o_buffer.c_str(), 1, o_buffer.size(), stdout)); }
+	template <typename T>
+	FastIO& operator>>(T& type)       { for (auto& e : type) { *this >> e; } return *this; }
 	FastIO& operator>>(bool& b)       { b = next_bool();                return *this; }
 	FastIO& operator>>(char& c)       { c = next_char(c);               return *this; }
 	FastIO& operator>>(char* s)       { strcpy(s, next_word().c_str()); return *this; }
@@ -78,9 +82,13 @@ public:
 	FastIO& operator>>(unsigned long& ul)       { ul = next_ullong();  return *this; }
 	FastIO& operator>>(unsigned int& ui)        { ui = next_ullong();  return *this; }
 	FastIO& operator>>(unsigned short& ush)     { ush = next_ullong(); return *this; }
-	template <typename T>
-	FastIO& operator>>(T& type)       { for (auto& e : type) { *this >> e; } return *this; }
 
+	template <typename T>
+	FastIO& operator<<(const T& type)   {
+		bool islit = isliteral(type);
+		for (auto& e : type) { *this << e << (islit ? delimiter : '\n'); }
+		return *this;
+	}
 	FastIO& operator<<(bool b)          { return (b ? *this << "true" : *this << "false"); }
 	FastIO& operator<<(char c)          { o_buffer += c; return *this; }
 	FastIO& operator<<(const char* s)   { o_buffer += s; return *this; }
@@ -95,13 +103,6 @@ public:
 	FastIO& operator<<(unsigned long ul)       { return *this << to_string(ul);  }
 	FastIO& operator<<(unsigned int ui)        { return *this << to_string(ui);  }
 	FastIO& operator<<(unsigned short ush)     { return *this << to_string(ush); }
-	template <typename T>
-	FastIO& operator<<(const T& type)   {
-		bool islit = isliteral(type);
-		for (auto& e : type) { *this << e << (islit ? delimiter : '\n'); }
-		return *this;
-	}
-	inline void setdelimiter(int c) { delimiter = c; }
 	operator bool() { return state; }
 } fio;
 #define int long long
