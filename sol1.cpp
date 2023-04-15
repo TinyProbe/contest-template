@@ -17,10 +17,10 @@ private:
 		const char* s = next_word().c_str();
 		return !lowercmp(s, "true") ? true : (!lowercmp(s, "false") ? false : atoll(s));
 	}
-	inline char next_char(char c) {
-		char c2;
-		while (isspace2(c2 = sys_getchar())) {}
-		return c2 ? c2 : c;
+	inline char next_char(char src) {
+		char c;
+		while (isspace2(c = sys_getchar())) {}
+		return c ? c : src;
 	}
 	inline const string& next_word() {
 		char c; word.clear();
