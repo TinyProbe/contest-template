@@ -49,16 +49,16 @@ private:
 	inline long long next_llong() {
 		long long ll = 0, sign = 1; char c;
 		while ((c = sys_getchar()) && isspace2(c)) {}
-		if (c && (c == '+' || c == '-')) { sign = -(c - ','), c = sys_getchar(); }
-		while (c && isdigit2(c)) { ll = (ll << 1) + (ll << 3) + (c ^ 48), c = sys_getchar(); }
-		while (c && !isspace2(c)) { c = sys_getchar(); }
+		if (c == '+' || c == '-') { sign = -(c - ','), c = sys_getchar(); }
+		while (isdigit2(c)) { ll = (ll << 1) + (ll << 3) + (c ^ 48), c = sys_getchar(); }
+		while (!isspace2(c) && c) { c = sys_getchar(); }
 		return ll * sign;
 	}
 	inline unsigned long long next_ullong() {
 		unsigned long long ull = 0; char c;
 		while ((c = sys_getchar()) && isspace2(c)) {}
-		while (c && isdigit2(c)) { ull = (ull << 1) + (ull << 3) + (c ^ 48), c = sys_getchar(); }
-		while (c && !isspace2(c)) { c = sys_getchar(); }
+		while (isdigit2(c)) { ull = (ull << 1) + (ull << 3) + (c ^ 48), c = sys_getchar(); }
+		while (!isspace2(c) && c) { c = sys_getchar(); }
 		return ull;
 	}
 public:
