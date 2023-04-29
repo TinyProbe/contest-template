@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 class FastIO {
-	static constexpr int MAX_SIZE = 1e5;
+	static constexpr int MAX_SIZE = 1 << 16;
 	char i_buffer[MAX_SIZE], *pb, *pe, delimiter;
 	string o_buffer, word;
 	bool state;
