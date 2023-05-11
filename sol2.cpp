@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 class FastIO {
-	static constexpr int MAX_SIZE = 1 << 16;
+	static constexpr int MAX_SIZE = (1 << 16);
 	char i_buffer[MAX_SIZE], *pb, *pe, delimiter;
 	string o_buffer, word;
 	bool state;
@@ -12,20 +12,20 @@ private:
 	template <typename T>
 	inline bool isliteral(const T& type) {
 		(void) type;
-		return typeid(typename T::value_type) == typeid(bool) ||
-				typeid(typename T::value_type) == typeid(char) ||
-				typeid(typename T::value_type) == typeid(char*) ||
-				typeid(typename T::value_type) == typeid(string) ||
-				typeid(typename T::value_type) == typeid(double) ||
-				typeid(typename T::value_type) == typeid(float) ||
-				typeid(typename T::value_type) == typeid(long long) ||
-				typeid(typename T::value_type) == typeid(long) ||
-				typeid(typename T::value_type) == typeid(int) ||
-				typeid(typename T::value_type) == typeid(short) ||
-				typeid(typename T::value_type) == typeid(unsigned long long) ||
-				typeid(typename T::value_type) == typeid(unsigned long) ||
-				typeid(typename T::value_type) == typeid(unsigned int) ||
-				typeid(typename T::value_type) == typeid(unsigned short);
+		return typeid(typename T::value_type) == typeid(bool)
+			|| typeid(typename T::value_type) == typeid(char)
+			|| typeid(typename T::value_type) == typeid(char*)
+			|| typeid(typename T::value_type) == typeid(string)
+			|| typeid(typename T::value_type) == typeid(double)
+			|| typeid(typename T::value_type) == typeid(float)
+			|| typeid(typename T::value_type) == typeid(long long)
+			|| typeid(typename T::value_type) == typeid(long)
+			|| typeid(typename T::value_type) == typeid(int)
+			|| typeid(typename T::value_type) == typeid(short)
+			|| typeid(typename T::value_type) == typeid(unsigned long long)
+			|| typeid(typename T::value_type) == typeid(unsigned long)
+			|| typeid(typename T::value_type) == typeid(unsigned int)
+			|| typeid(typename T::value_type) == typeid(unsigned short);
 	}
 	inline int lowercmp(const char* s1, const char* s2) {
 		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) ++s1, ++s2;
@@ -67,42 +67,42 @@ public:
 	FastIO() : pb(), pe(), delimiter(' '), state(true) {}
 	~FastIO() { assert(o_buffer.size() == fwrite(o_buffer.c_str(), 1, o_buffer.size(), stdout)); }
 	template <typename T>
-	FastIO& operator>>(T& type)       { for (auto& e : type) { *this >> e; } return *this; }
-	FastIO& operator>>(bool& b)       { b = next_bool();                return *this; }
-	FastIO& operator>>(char& c)       { c = next_char(c);               return *this; }
-	FastIO& operator>>(char* s)       { strcpy(s, next_word().c_str()); return *this; }
-	FastIO& operator>>(string& s)     { s = next_word();                return *this; }
-	FastIO& operator>>(double& d)     { d = atof(next_word().c_str());  return *this; }
-	FastIO& operator>>(float& f)      { f = atof(next_word().c_str());  return *this; }
-	FastIO& operator>>(long long& ll) { ll = next_llong(); return *this; }
-	FastIO& operator>>(long& l)       { l = next_llong();  return *this; }
-	FastIO& operator>>(int& i)        { i = next_llong();  return *this; }
-	FastIO& operator>>(short& sh)     { sh = next_llong(); return *this; }
-	FastIO& operator>>(unsigned long long& ull) { ull = next_ullong(); return *this; }
-	FastIO& operator>>(unsigned long& ul)       { ul = next_ullong();  return *this; }
-	FastIO& operator>>(unsigned int& ui)        { ui = next_ullong();  return *this; }
-	FastIO& operator>>(unsigned short& ush)     { ush = next_ullong(); return *this; }
+	inline FastIO& operator>>(T& type)       { for (auto& e : type) { *this >> e; } return *this; }
+	inline FastIO& operator>>(bool& b)       { b = next_bool();                return *this; }
+	inline FastIO& operator>>(char& c)       { c = next_char(c);               return *this; }
+	inline FastIO& operator>>(char* s)       { strcpy(s, next_word().c_str()); return *this; }
+	inline FastIO& operator>>(string& s)     { s = next_word();                return *this; }
+	inline FastIO& operator>>(double& d)     { d = atof(next_word().c_str());  return *this; }
+	inline FastIO& operator>>(float& f)      { f = atof(next_word().c_str());  return *this; }
+	inline FastIO& operator>>(long long& ll) { ll = next_llong(); return *this; }
+	inline FastIO& operator>>(long& l)       { l = next_llong();  return *this; }
+	inline FastIO& operator>>(int& i)        { i = next_llong();  return *this; }
+	inline FastIO& operator>>(short& sh)     { sh = next_llong(); return *this; }
+	inline FastIO& operator>>(unsigned long long& ull) { ull = next_ullong(); return *this; }
+	inline FastIO& operator>>(unsigned long& ul)       { ul = next_ullong();  return *this; }
+	inline FastIO& operator>>(unsigned int& ui)        { ui = next_ullong();  return *this; }
+	inline FastIO& operator>>(unsigned short& ush)     { ush = next_ullong(); return *this; }
 
 	template <typename T>
-	FastIO& operator<<(const T& type)   {
+	inline FastIO& operator<<(const T& type)   {
 		bool islit = isliteral(type);
 		for (auto& e : type) { *this << e << (islit ? delimiter : '\n'); }
 		return *this;
 	}
-	FastIO& operator<<(bool b)          { return (b ? *this << "true" : *this << "false"); }
-	FastIO& operator<<(char c)          { o_buffer += c; return *this; }
-	FastIO& operator<<(const char* s)   { o_buffer += s; return *this; }
-	FastIO& operator<<(const string& s) { o_buffer += s; return *this; }
-	FastIO& operator<<(double d)        { return *this << to_string(d);  }
-	FastIO& operator<<(float f)         { return *this << to_string(f);  }
-	FastIO& operator<<(long long ll)    { return *this << to_string(ll); }
-	FastIO& operator<<(long l)          { return *this << to_string(l);  }
-	FastIO& operator<<(int i)           { return *this << to_string(i);  }
-	FastIO& operator<<(short sh)        { return *this << to_string(sh); }
-	FastIO& operator<<(unsigned long long ull) { return *this << to_string(ull); }
-	FastIO& operator<<(unsigned long ul)       { return *this << to_string(ul);  }
-	FastIO& operator<<(unsigned int ui)        { return *this << to_string(ui);  }
-	FastIO& operator<<(unsigned short ush)     { return *this << to_string(ush); }
+	inline FastIO& operator<<(bool b)          { return *this << (b ? "true" : "false"); }
+	inline FastIO& operator<<(char c)          { o_buffer += c; return *this; }
+	inline FastIO& operator<<(const char* s)   { o_buffer += s; return *this; }
+	inline FastIO& operator<<(const string& s) { o_buffer += s; return *this; }
+	inline FastIO& operator<<(double d)        { return *this << to_string(d);  }
+	inline FastIO& operator<<(float f)         { return *this << to_string(f);  }
+	inline FastIO& operator<<(long long ll)    { return *this << to_string(ll); }
+	inline FastIO& operator<<(long l)          { return *this << to_string(l);  }
+	inline FastIO& operator<<(int i)           { return *this << to_string(i);  }
+	inline FastIO& operator<<(short sh)        { return *this << to_string(sh); }
+	inline FastIO& operator<<(unsigned long long ull) { return *this << to_string(ull); }
+	inline FastIO& operator<<(unsigned long ul)       { return *this << to_string(ul);  }
+	inline FastIO& operator<<(unsigned int ui)        { return *this << to_string(ui);  }
+	inline FastIO& operator<<(unsigned short ush)     { return *this << to_string(ush); }
 	operator bool() { return state; }
 } fio;
 #define int long long
@@ -110,11 +110,9 @@ public:
 #define S second
 #define untie cin.tie(0)->sync_with_stdio(0)
 #define testcase(N) int t; for (N?t=N:bool(fio>>t); t>0; --t) solve()
-#define solution(N)\
-	void solve();\
-	signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }\
-	void solve()
+#define __main__(N) signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }
+#define solution(N) void solve(); __main__(N) void solve()
 
 solution(1) {
-
+	fio << "Hello World!" << '\n';
 }
