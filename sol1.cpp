@@ -28,7 +28,7 @@ private:
 			|| typeid(typename T::value_type) == typeid(unsigned short);
 	}
 	inline int lowercmp(const char *s1, const char *s2) {
-		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) ++s1, ++s2;
+		while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) { ++s1, ++s2; }
 		return *s1 - *s2;
 	}
 	inline bool next_bool() {
@@ -68,8 +68,8 @@ public:
 	~FastIO() { assert(o_buffer.size() == fwrite(o_buffer.c_str(), sizeof(char), o_buffer.size(), stdout)); }
 	template <typename T>
 	inline FastIO &operator>>(T &type)       { for (auto &e : type) { *this >> e; } return *this; }
-	inline FastIO &operator>>(bool &b)       { b = next_bool();                return *this; }
-	inline FastIO &operator>>(char &c)       { c = next_char(c);               return *this; }
+	inline FastIO &operator>>(bool &b)       { b = next_bool();  return *this; }
+	inline FastIO &operator>>(char &c)       { c = next_char(c); return *this; }
 	inline FastIO &operator>>(char *s)       { strcpy(s, next_word().c_str()); return *this; }
 	inline FastIO &operator>>(string &s)     { s = std::move(next_word());     return *this; }
 	inline FastIO &operator>>(double &d)     { d = atof(next_word().c_str());  return *this; }
