@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 class FastIO {
-	static constexpr int MAX_SIZE = (1 << 16);
+	static constexpr int MAX_SIZE = (1 << 20);
 	char i_buffer[MAX_SIZE], *pb, *pe, delimiter;
 	string o_buffer, word;
 	bool state;
@@ -108,10 +108,10 @@ public:
 #define int long long
 #define F first
 #define S second
-#define untie cin.tie(0)->sync_with_stdio(0)
+#define untie ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr)
 #define testcase(N) int t; for (N?t=N:bool(fio>>t); t>0; --t) solve()
 #define __main__(N) signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }
-#define solution(N) void solve(); __main__(N) void solve()
+#define solution(N) inline void solve(); __main__(N) inline void solve()
 
 solution(1) {
 
