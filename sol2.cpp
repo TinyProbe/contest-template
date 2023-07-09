@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 class FastIO {
-	static constexpr int MAX_SIZE=(1 << 20);
-	char i_buffer[MAX_SIZE], *pb, *pe, delimiter;
+	static constexpr int MAX_SIZE=(1<<20);
+	char i_buffer[MAX_SIZE], *pb, *pe, c, delimiter;
 	string o_buffer, word;
 	bool state;
 private:
-	inline char sys_getchar() { return pb==pe && (pe=(pb=i_buffer)+fread_unlocked(i_buffer, sizeof(char), MAX_SIZE, stdin), pb==pe) ? (state=false) : *pb++; }
+	inline char sys_getchar() { return pb==pe && (pe=(pb=i_buffer)+fread(i_buffer, sizeof(char), MAX_SIZE, stdin), pb==pe) ? (state=false) : *pb++; }
 	inline bool isspace2(int c) { return (c>=9 && c<=13) || c==32; }
 	inline bool isdigit2(int c) { return c>='0' && c<='9'; }
 	template <typename T>
@@ -36,18 +36,17 @@ private:
 		return !lowercmp(s, "true") ? true : (!lowercmp(s, "false") ? false : atoll(s));
 	}
 	inline char next_char(char src) {
-		char c;
 		while (isspace2(c = sys_getchar())) {}
 		return (c ? c : src);
 	}
 	inline const string &next_word() {
-		char c; word.clear();
+		word.clear();
 		while (isspace2(c=sys_getchar())) {}
 		while (!isspace2(c) && c) { word+=c, c=sys_getchar(); }
 		return word;
 	}
 	inline long long next_llong() {
-		long long ll=0, sign=1; char c;
+		long long ll=0, sign=1;
 		while ((c=sys_getchar()) && isspace2(c)) {}
 		if (c=='+' || c=='-') { sign= -(c - ','), c=sys_getchar(); }
 		while (isdigit2(c)) { ll=(ll<<1)+(ll<<3)+(c^48), c=sys_getchar(); }
@@ -55,7 +54,7 @@ private:
 		return ll*sign;
 	}
 	inline unsigned long long next_ullong() {
-		unsigned long long ull=0; char c;
+		unsigned long long ull=0;
 		while ((c=sys_getchar()) && isspace2(c)) {}
 		while (isdigit2(c)) { ull=(ull<<1)+(ull<<3)+(c^48), c=sys_getchar(); }
 		while (!isspace2(c) && c) { c=sys_getchar(); }
@@ -64,8 +63,8 @@ private:
 public:
 	inline void setdelimiter(int c) { delimiter=c; }
 
-	FastIO() : pb(), pe(), delimiter(' '), state(true) {}
-	~FastIO() { assert(o_buffer.size()==fwrite_unlocked(o_buffer.c_str(), sizeof(char), o_buffer.size(), stdout)); }
+	FastIO() : pb(), pe(), c(), delimiter(' '), state(true) {}
+	~FastIO() { assert(o_buffer.size()==fwrite(o_buffer.c_str(), sizeof(char), o_buffer.size(), stdout)); }
 	template <typename T>
 	inline FastIO &operator>>(T &type)       { for (auto &e: type) { *this>>e; } return *this; }
 	inline FastIO &operator>>(bool &b)       { b=next_bool();  return *this; }
@@ -84,7 +83,7 @@ public:
 	inline FastIO &operator>>(unsigned short &ush)     { ush=next_ullong(); return *this; }
 
 	template <typename T>
-	inline FastIO &operator<<(const T &type)   {
+	inline FastIO &operator<<(const T &type) {
 		bool islit=isliteral(type);
 		for (auto &e: type) { *this<<e<<(islit ? delimiter : '\n'); }
 		return *this;
@@ -106,13 +105,12 @@ public:
 	operator bool() { return state; }
 } fio;
 #define int long long
-#define F first
-#define S second
 #define untie ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr)
 #define testcase(N) int t; for (N?t=N:bool(fio>>t); t>0; --t) solve()
 #define _main_(N) signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }
 #define solution(N) inline void solve(); _main_(N) inline void solve()
 
 solution(1) {
-	
+	fio << "Hello World!\n";
 }
+
