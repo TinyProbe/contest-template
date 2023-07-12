@@ -29,14 +29,14 @@ private:
 	}
 	inline int lowercmp(const char *s1, const char *s2) {
 		while (*s1 && *s2 && tolower(*s1)==tolower(*s2)) { ++s1, ++s2; }
-		return *s1-*s2;
+		return *s1 - *s2;
 	}
 	inline bool next_bool() {
-		const char *s = next_word().c_str();
+		const char *s=next_word().c_str();
 		return !lowercmp(s, "true") ? true : (!lowercmp(s, "false") ? false : atoll(s));
 	}
 	inline char next_char(char src) {
-		while (isspace2(c = sys_getchar())) {}
+		while (isspace2(c=sys_getchar())) {}
 		return (c ? c : src);
 	}
 	inline const string &next_word() {
@@ -111,6 +111,6 @@ public:
 #define solution(N) inline void solve(); main__(N) inline void solve()
 
 solution(1) {
-	fio << "Hello World!\n";
+	
 }
 
