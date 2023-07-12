@@ -107,8 +107,8 @@ public:
 #define int long long
 #define untie ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr)
 #define testcase(N) int t; for (N?t=N:bool(fio>>t); t>0; --t) solve()
-#define _main_(N) signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }
-#define solution(N) inline void solve(); _main_(N) inline void solve()
+#define main__(N) signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }
+#define solution(N) inline void solve(); main__(N) inline void solve()
 
 solution(1) {
 	
