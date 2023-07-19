@@ -34,15 +34,15 @@ macro_rules! input {
     (($($var:tt)*): ($($t:tt),*), $($rest:tt)*)=>{
         let ($($var)*) = __input_inner!(($($t),*));input!($($rest)*);
     };
-    (($($var:tt)*): ($($t:tt),*))=>{ let ($($var)*) = __input_inner!(($($t),*)); };
+    (($($var:tt)*): ($($t:tt),*))=>{let ($($var)*) = __input_inner!(($($t),*));};
 }
 macro_rules! __input_inner {
-    (($($t:tt),*)) => {($(__input_inner!($t)),*)};
+    (($($t:tt),*))=>{($(__input_inner!($t)),*)};
     ([$t:tt; $n:expr])=>{(0..$n).map(|_| __input_inner!($t)).collect::<Vec<_>>()};
     (chars)=>{__input_inner!(String).chars().collect::<Vec<_>>()};
     (vytes)=>{__input_inner!(String).bytes().collect::<Vec<_>>()};
     (bytes)=>{__input_inner!(String).into_bytes()};
-    (usize1)=>{__input_inner!(usize)-1};
+    (usize_1)=>{__input_inner!(usize)-1};
     ($t:ty)=>{scan::<$t>()};
 }
 macro_rules! u8 {($n:expr)=>(($n) as u8)}
@@ -68,3 +68,4 @@ fn main() { testcase!(0); }
 fn solve() {
     
 }
+
