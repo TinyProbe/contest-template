@@ -7,21 +7,40 @@ use std::{isize, usize};
 use std::collections::*;
 type Queue<T> = LinkedList<T>;
  
-fn scan<T: std::str::FromStr>()->T {
-    static mut BUF: Vec<String> = vec![];
-    loop {
-        if let Some(token) = unsafe {BUF.pop()} {
-            return token.parse().ok().expect("Failed to parse.");
+struct UnsafeScanner<R: BufRead> {
+    reader: R,
+    buf_str: Vec<u8>,
+    buf_iter: std::str::SplitAsciiWhitespace<'static>, // '
+}
+impl<R: BufRead> UnsafeScanner<R> {
+    fn new(reader: R)->Self {
+        Self {reader, buf_str: vec![], buf_iter: "".split_ascii_whitespace()}
+    }
+    fn scan<T: std::str::FromStr>(&mut self)->T {
+        loop {
+            if let Some(token) = self.buf_iter.next() {
+                return token.parse().ok().expect("Failed to parse.");
+            }
+            self.buf_str.clear();
+            self.reader.read_until(b'\n', &mut self.buf_str).expect("Failed to read.");
+            self.buf_iter = unsafe {
+                let slice = std::str::from_utf8_unchecked(&self.buf_str);
+                std::mem::transmute(slice.split_ascii_whitespace())
+            };
         }
-        let mut line = String::new();
-        std::io::stdin().read_line(&mut line).ok().expect("Failed to read.");
-        unsafe { BUF = line.split_whitespace().rev().map(String::from).collect(); }
     }
 }
-fn bufw()->&'static mut BufWriter<Stdout> { // '
-    static mut BUF: Option<BufWriter<Stdout>> = None;
+fn in__()->&'static mut UnsafeScanner<StdinLock<'static>> {
+    static mut SCNR: Option<UnsafeScanner<StdinLock>> = None;
     unsafe {
-        if let None = BUF { BUF = Some(BufWriter::new(stdout())); }
+        if let None = SCNR { SCNR = Some(UnsafeScanner::new(stdin().lock())); }
+        return SCNR.as_mut().unwrap();
+    }
+}
+fn out()->&'static mut BufWriter<StdoutLock<'static>> {
+    static mut BUF: Option<BufWriter<StdoutLock>> = None;
+    unsafe {
+        if let None = BUF { BUF = Some(BufWriter::new(stdout().lock())); }
         return BUF.as_mut().unwrap();
     }
 }
@@ -31,9 +50,7 @@ macro_rules! input {
     (mut $var:ident: $t:tt)=>{let mut $var = __input_inner!($t);};
     ($var:ident: $t:tt, $($rest:tt)*)=>{input!($var: $t);input!($($rest)*);};
     ($var:ident: $t:tt)=>{let $var = __input_inner!($t);};
-    (($($var:tt)*): ($($t:tt),*), $($rest:tt)*)=>{
-        let ($($var)*) = __input_inner!(($($t),*));input!($($rest)*);
-    };
+    (($($var:tt)*): ($($t:tt),*), $($rest:tt)*)=>{input!(($($var)*): ($($t),*));input!($($rest)*);};
     (($($var:tt)*): ($($t:tt),*))=>{let ($($var)*) = __input_inner!(($($t),*));};
 }
 macro_rules! __input_inner {
@@ -48,7 +65,7 @@ macro_rules! __input_inner {
     (vytes)=>{__input_inner!(String).bytes().collect::<Vec<_>>()};
     (bytes)=>{__input_inner!(String).into_bytes()};
     (usize_1)=>{__input_inner!(usize)-1};
-    ($t:ty)=>{scan::<$t>()};
+    ($t:ty)=>{in__().scan::<$t>()};
 }
 macro_rules! u8 {($n:expr)=>(($n) as u8)}
 macro_rules! u16 {($n:expr)=>(($n) as u16)}
@@ -64,13 +81,16 @@ macro_rules! i128 {($n:expr)=>(($n) as i128)}
 macro_rules! isize {($n:expr)=>(($n) as isize)}
 macro_rules! char {($n:expr)=>(($n) as char)}
 macro_rules! bool {($n:expr)=>(($n) as bool)}
-macro_rules! print {($($fmt:tt)*)=>(write!(bufw(),$($fmt)*))}
-macro_rules! println {($($fmt:tt)*)=>(writeln!(bufw(),$($fmt)*))}
+macro_rules! print {($($fmt:tt)*)=>(write!(out(),$($fmt)*))}
+macro_rules! println {($($fmt:tt)*)=>(writeln!(out(),$($fmt)*))}
 macro_rules! ternary {($cdt:expr;$true:expr;$false:expr)=>(if$cdt{$true}else{$false})}
-macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);scan()){solve();}bufw().flush().unwrap())}
+macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in__().scan()){solve();})}
  
-fn main() { testcase!(0); }
+fn main() {
+    testcase!(0);
+    out().flush().unwrap();
+}
 fn solve() {
-    
+
 }
 
