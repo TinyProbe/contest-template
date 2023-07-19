@@ -57,6 +57,7 @@ macro_rules! i32 {($n:expr)=>(($n) as i32)}
 macro_rules! i64 {($n:expr)=>(($n) as i64)}
 macro_rules! i128 {($n:expr)=>(($n) as i128)}
 macro_rules! isize {($n:expr)=>(($n) as isize)}
+macro_rules! char {($n:expr)=>(($n) as char)}
 macro_rules! bool {($n:expr)=>(($n) as bool)}
 macro_rules! print {($($fmt:tt)*)=>(write!(bufw(),$($fmt)*))}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(bufw(),$($fmt)*))}
