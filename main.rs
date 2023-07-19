@@ -39,6 +39,11 @@ macro_rules! input {
 macro_rules! __input_inner {
     (($($t:tt),*))=>{($(__input_inner!($t)),*)};
     ([$t:tt; $n:expr])=>{(0..$n).map(|_| __input_inner!($t)).collect::<Vec<_>>()};
+    ([$t:tt; $padd:expr; $n:expr])=>{{
+        let mut tmp = Vec::with_capacity($padd+$n);
+        tmp.resize_with($padd, Default::default);
+        tmp.resize_with($padd+$n, || __input_inner!($t)); tmp
+    }};
     (chars)=>{__input_inner!(String).chars().collect::<Vec<_>>()};
     (vytes)=>{__input_inner!(String).bytes().collect::<Vec<_>>()};
     (bytes)=>{__input_inner!(String).into_bytes()};
