@@ -18,7 +18,7 @@ fn scan<T: std::str::FromStr>()->T {
         unsafe { BUF = line.split_whitespace().rev().map(String::from).collect(); }
     }
 }
-fn bufw()->&/*'*/'static mut BufWriter<Stdout> {
+fn bufw()->&'static mut BufWriter<Stdout> { // '
     static mut WR: Option<BufWriter<Stdout>> = None;
     unsafe {
         if let None = WR { WR = Some(BufWriter::new(stdout())); }
