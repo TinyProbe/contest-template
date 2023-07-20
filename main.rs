@@ -81,16 +81,14 @@ macro_rules! i128 {($n:expr)=>(($n) as i128)}
 macro_rules! isize {($n:expr)=>(($n) as isize)}
 macro_rules! char {($n:expr)=>(($n) as char)}
 macro_rules! bool {($n:expr)=>(($n) as bool)}
+macro_rules! flush {()=>(out().flush().unwrap())}
 macro_rules! print {($($fmt:tt)*)=>(write!(out(),$($fmt)*))}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(out(),$($fmt)*))}
 macro_rules! ternary {($cdt:expr;$true:expr;$false:expr)=>(if$cdt{$true}else{$false})}
-macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in__().scan()){solve();})}
+macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in__().scan()){solve();}flush!())}
  
-fn main() {
-    testcase!(0);
-    out().flush().unwrap();
-}
+fn main() { testcase!(0); }
 fn solve() {
-
+    
 }
 
