@@ -30,7 +30,7 @@ impl<R: BufRead> UnsafeScanner<R> {
         }
     }
 }
-fn in__()->&'static mut UnsafeScanner<StdinLock<'static>> {
+fn in_()->&'static mut UnsafeScanner<StdinLock<'static>> {
     static mut SCNR: Option<UnsafeScanner<StdinLock>> = None;
     unsafe {
         if let None = SCNR { SCNR = Some(UnsafeScanner::new(stdin().lock())); }
@@ -65,29 +65,20 @@ macro_rules! __input_inner {
     (vytes)=>{__input_inner!(String).bytes().collect::<Vec<_>>()};
     (bytes)=>{__input_inner!(String).into_bytes()};
     (usize_1)=>{__input_inner!(usize)-1};
-    ($t:ty)=>{in__().scan::<$t>()};
+    ($t:ty)=>{in_().scan::<$t>()};
 }
-macro_rules! u8 {($n:expr)=>(($n) as u8)}
-macro_rules! u16 {($n:expr)=>(($n) as u16)}
-macro_rules! u32 {($n:expr)=>(($n) as u32)}
-macro_rules! u64 {($n:expr)=>(($n) as u64)}
-macro_rules! u128 {($n:expr)=>(($n) as u128)}
-macro_rules! usize {($n:expr)=>(($n) as usize)}
-macro_rules! i8 {($n:expr)=>(($n) as i8)}
-macro_rules! i16 {($n:expr)=>(($n) as i16)}
-macro_rules! i32 {($n:expr)=>(($n) as i32)}
-macro_rules! i64 {($n:expr)=>(($n) as i64)}
-macro_rules! i128 {($n:expr)=>(($n) as i128)}
-macro_rules! isize {($n:expr)=>(($n) as isize)}
-macro_rules! char {($n:expr)=>(($n) as char)}
-macro_rules! bool {($n:expr)=>(($n) as bool)}
-macro_rules! flush {()=>(out().flush().unwrap())}
-macro_rules! print {($($fmt:tt)*)=>(write!(out(),$($fmt)*))}
+macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in_().scan()){solve();})}
+macro_rules! ternary {($cdt:expr;$true:expr;$false:expr)=>(if $cdt{$true}else{$false})}
+macro_rules! printv {($v:expr)=>(for &e in &($v){print!("{e} ");}println!())}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(out(),$($fmt)*))}
-macro_rules! ternary {($cdt:expr;$true:expr;$false:expr)=>(if$cdt{$true}else{$false})}
-macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in__().scan()){solve();}flush!())}
+macro_rules! print {($($fmt:tt)*)=>(write!(out(),$($fmt)*))}
+macro_rules! flush {()=>(out().flush().unwrap())}
+macro_rules! usz {($var:expr)=>(($var) as usize)}
+macro_rules! isz {($var:expr)=>(($var) as isize)}
+macro_rules! chr {($var:expr)=>(($var) as char)}
+macro_rules! byt {($var:expr)=>(($var) as u8)}
  
-fn main() { testcase!(0); }
+fn main() { testcase!(0); flush!(); }
 fn solve() {
     
 }
