@@ -29,7 +29,7 @@ private:
 	}
 	inline int lowercmp(const char *s1, const char *s2) {
 		while (*s1 && *s2 && tolower(*s1)==tolower(*s2)) { ++s1, ++s2; }
-		return *s1 - *s2;
+		return tolower(*s1)-tolower(*s2);
 	}
 	inline bool next_bool() {
 		const char *s=next_word().c_str();
@@ -48,7 +48,7 @@ private:
 	inline long long next_llong() {
 		long long ll=0, sign=1;
 		while ((c=sys_getchar()) && isspace2(c)) {}
-		if (c=='+' || c=='-') { sign= -(c - ','), c=sys_getchar(); }
+		if (c=='+' || c=='-') { sign=-(c-','), c=sys_getchar(); }
 		while (isdigit2(c)) { ll=(ll<<1)+(ll<<3)+(c^48), c=sys_getchar(); }
 		while (!isspace2(c) && c) { c=sys_getchar(); }
 		return ll*sign;
@@ -110,7 +110,6 @@ public:
 #define main__(N) signed main() { untie; testcase(N); assert(fio && !(fio>>t)); }
 #define solution(N) inline void solve(); main__(N) inline void solve()
 
-solution(1) {
+solution(0) {
 	
 }
-
