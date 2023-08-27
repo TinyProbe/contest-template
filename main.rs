@@ -69,7 +69,7 @@ macro_rules! __input_inner {
 }
 macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in_().scan()){solve();})}
 macro_rules! ternary {($cdt:expr;$true:expr;$false:expr)=>(if $cdt{$true}else{$false})}
-macro_rules! printv {($v:expr)=>(for &e in &($v){print!("{e} ");}println!())}
+macro_rules! printvec {($v:expr)=>(println!("{}",($v).iter().map(|e| e.to_string()).collect::<Vec<_>>().join(" ")))}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(out(),$($fmt)*))}
 macro_rules! print {($($fmt:tt)*)=>(write!(out(),$($fmt)*))}
 macro_rules! flush {()=>(out().flush().unwrap())}
