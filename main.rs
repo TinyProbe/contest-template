@@ -1,19 +1,24 @@
 #![allow(dead_code, unused)]
 
 use std::io::*;
-use std::mem::{swap, size_of};
-use std::cmp::{min, max};
 use std::{isize, usize};
 use std::collections::*;
+use std::mem::swap;
+use std::cmp::{max, min};
 type Queue<T> = LinkedList<T>;
 
 struct UnsafeScanner<R: BufRead> {
-  reader: R, buf_str: Vec<u8>,
+  reader: R,
+  buf_str: Vec<u8>,
   buf_iter: std::str::SplitAsciiWhitespace<'static>,
 }
 impl<R: BufRead> UnsafeScanner<R> {
   fn new(reader: R) -> Self {
-    Self {reader, buf_str: vec![], buf_iter: "".split_ascii_whitespace()}
+    Self {
+      reader,
+      buf_str: vec![],
+      buf_iter: "".split_ascii_whitespace(),
+    }
   }
   fn scan<T: std::str::FromStr>(&mut self) -> T {
     loop {
@@ -21,7 +26,9 @@ impl<R: BufRead> UnsafeScanner<R> {
         return token.parse().ok().expect("Failed to parse.");
       }
       self.buf_str.clear();
-      self.reader.read_until(b'\n', &mut self.buf_str).expect("Failed to read.");
+      self.reader
+        .read_until(b'\n', &mut self.buf_str)
+        .expect("Failed to read.");
       self.buf_iter = unsafe {
         let slice = std::str::from_utf8_unchecked(&self.buf_str);
         std::mem::transmute(slice.split_ascii_whitespace())
@@ -29,52 +36,53 @@ impl<R: BufRead> UnsafeScanner<R> {
     }
   }
 }
-fn in_() -> &'static mut UnsafeScanner<StdinLock<'static>> {
+fn _i() -> &'static mut UnsafeScanner<StdinLock<'static>> {
   static mut SCNR: Option<UnsafeScanner<StdinLock>> = None;
   unsafe {
-    if let None = SCNR { SCNR = Some(UnsafeScanner::new(stdin().lock())); }
+    if let None = SCNR {
+      SCNR = Some(UnsafeScanner::new(stdin().lock()));
+    }
     return SCNR.as_mut().unwrap();
   }
 }
-fn out() -> &'static mut BufWriter<StdoutLock<'static>> {
+fn _o() -> &'static mut BufWriter<StdoutLock<'static>> {
   static mut BUF: Option<BufWriter<StdoutLock>> = None;
   unsafe {
-    if let None = BUF { BUF = Some(BufWriter::new(stdout().lock())); }
+    if let None = BUF {
+      BUF = Some(BufWriter::new(stdout().lock()));
+    }
     return BUF.as_mut().unwrap();
   }
 }
 macro_rules! input {
-  ()=>{};()=>[];
-  (mut $var:ident:$t:tt,$($rest:tt)*)=>{input!(mut $var:$t);input!($($rest)*);};
-  (mut $var:ident:$t:tt)=>{let mut $var=__input_inner!($t);};
-  ($var:ident:$t:tt,$($rest:tt)*)=>{input!($var:$t);input!($($rest)*);};
-  ($var:ident:$t:tt)=>{let $var=__input_inner!($t);};
-  (($($var:tt)*):($($t:tt),*),$($rest:tt)*)=>{input!(($($var)*):($($t),*));input!($($rest)*);};
-  (($($var:tt)*):($($t:tt),*))=>{let ($($var)*)=__input_inner!(($($t),*));};
+  ()=>{}; ()=>[];
+  (mut $v:ident:$t:tt,$($r:tt)*)=>{input!(mut $v:$t);input!($($r)*);};
+  (mut $v:ident:$t:tt)=>{let mut $v=input_inner!($t);};
+  ($v:ident:$t:tt,$($r:tt)*)=>{input!($v:$t);input!($($r)*);};
+  ($v:ident:$t:tt)=>{let $v=input_inner!($t);};
+  (($($v:tt)*):($($t:tt),*),$($r:tt)*)=>{input!(($($v)*):($($t),*));input!($($r)*);};
+  (($($v:tt)*):($($t:tt),*))=>{let ($($v)*)=input_inner!(($($t),*));};
 }
-macro_rules! __input_inner {
-  (($($t:tt),*))=>{($(__input_inner!($t)),*)};
-  ([$t:tt;$n:expr])=>{(0..$n).map(|_| __input_inner!($t)).collect::<Vec<_>>()};
-  ([$t:tt;$padd:expr;$n:expr])=>{{
-    let mut tmp = Vec::with_capacity(($padd)+($n));
-    tmp.resize_with(($padd), Default::default);
-    tmp.resize_with(($padd)+($n), || __input_inner!($t)); tmp
+macro_rules! input_inner {
+  (($($t:tt),*))=>{($(input_inner!($t)),*)};
+  ([$t:tt;$n:expr])=>{(0..$n).map(|_| input_inner!($t)).collect::<Vec<_>>()};
+  ([$t:tt;$pad:expr;$n:expr])=>{{
+    let mut tmp=Vec::with_capacity(($pad)+($n));
+    tmp.resize_with(($pad),Default::default);
+    tmp.resize_with(($pad)+($n),|| input_inner!($t));tmp
   }};
-  (chars)=>{__input_inner!(String).chars().collect::<Vec<_>>()};
-  (vytes)=>{__input_inner!(String).bytes().collect::<Vec<_>>()};
-  (bytes)=>{__input_inner!(String).into_bytes()};
-  (usize_1)=>{__input_inner!(usize)-1};
-  ($t:ty)=>{in_().scan::<$t>()};
+  (chars)=>{input_inner!(String).chars().collect::<Vec<_>>()};
+  (vytes)=>{input_inner!(String).bytes().collect::<Vec<_>>()};
+  (bytes)=>{input_inner!(String).into_bytes()};
+  (usize_1)=>{input_inner!(usize)-1};
+  ($t:ty)=>{_i().scan::<$t>()};
 }
-macro_rules! testcase {($n:expr)=>(for _ in 0..ternary!(($n)!=0;($n);in_().scan()){solve();})}
-macro_rules! ternary {($cdt:expr;$true:expr;$false:expr)=>(if $cdt{$true}else{$false})}
-macro_rules! printvec {($v:expr)=>(println!("{}",($v).iter().map(|e| e.to_string()).collect::<Vec<_>>().join(" ")))}
-macro_rules! println {($($fmt:tt)*)=>(writeln!(out(),$($fmt)*).unwrap())}
-macro_rules! print {($($fmt:tt)*)=>(write!(out(),$($fmt)*).unwrap())}
-macro_rules! flush {()=>(out().flush().unwrap())}
+macro_rules! test {($n:expr)=>(for _ in 0..try!(($n)!=0;($n);_i().scan()){solve();})}
+macro_rules! try {($c:expr;$t:expr;$f:expr)=>{if $c{$t}else{$f}};}
+macro_rules! println {($($fmt:tt)*)=>(writeln!(_o(),$($fmt)*))}
+macro_rules! print {($($fmt:tt)*)=>(write!(_o(),$($fmt)*))}
+macro_rules! flush {()=>{_o().flush().unwrap()};}
 
-fn main() { testcase!(0); flush!(); }
-
+fn main() { test!(0); flush!(); }
 fn solve() {
-  println!("hello world!");
 }
