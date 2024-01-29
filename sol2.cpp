@@ -15,7 +15,7 @@ using usize = unsigned long;
 using f32 = float;
 using f64 = double;
 
-#define untie ios_base::sync_with_stdio(false),cin.tie(nullptr),cout.tie(nullptr)
+#define untie ios_base::sync_with_stdio(0),cin.tie(0),cout.tie(0)
 #define testcase(N) usize t;for(N?t=N:bool(fio>>t);t>0;--t)solve()
 #define main__(N) i32 main(){untie;testcase(N);assert(fio&&!(fio>>t));}
 #define solution(N) inline void solve();main__(N)inline void solve()
