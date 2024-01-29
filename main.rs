@@ -7,12 +7,12 @@ use std::mem::swap;
 use std::cmp::{max, min};
 type Queue<T> = LinkedList<T>;
 
-struct UnsafeScanner<R: BufRead> {
+struct Scanner<R: BufRead> {
   reader: R,
   buf_str: Vec<u8>,
   buf_iter: std::str::SplitAsciiWhitespace<'static>,
 }
-impl<R: BufRead> UnsafeScanner<R> {
+impl<R: BufRead> Scanner<R> {
   fn new(reader: R) -> Self {
     Self {
       reader,
@@ -36,22 +36,22 @@ impl<R: BufRead> UnsafeScanner<R> {
     }
   }
 }
-fn _i() -> &'static mut UnsafeScanner<StdinLock<'static>> {
-  static mut SCNR: Option<UnsafeScanner<StdinLock>> = None;
+fn _i() -> &'static mut Scanner<StdinLock<'static>> {
+  static mut SCN: Option<Scanner<StdinLock>> = None;
   unsafe {
-    if let None = SCNR {
-      SCNR = Some(UnsafeScanner::new(stdin().lock()));
+    if let None = SCN {
+      SCN = Some(Scanner::new(stdin().lock()));
     }
-    return SCNR.as_mut().unwrap();
+    return SCN.as_mut().unwrap();
   }
 }
 fn _o() -> &'static mut BufWriter<StdoutLock<'static>> {
-  static mut BUF: Option<BufWriter<StdoutLock>> = None;
+  static mut WRT: Option<BufWriter<StdoutLock>> = None;
   unsafe {
-    if let None = BUF {
-      BUF = Some(BufWriter::new(stdout().lock()));
+    if let None = WRT {
+      WRT = Some(BufWriter::new(stdout().lock()));
     }
-    return BUF.as_mut().unwrap();
+    return WRT.as_mut().unwrap();
   }
 }
 macro_rules! input {
