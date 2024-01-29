@@ -77,12 +77,20 @@ macro_rules! input_inner {
   (usize_1)=>{input_inner!(usize)-1};
   ($t:ty)=>{_i().scan::<$t>()};
 }
-macro_rules! test {($n:expr)=>(for _ in 0..try!(($n)!=0;($n);_i().scan()){solve();})}
-macro_rules! try {($c:expr;$t:expr;$f:expr)=>{if $c{$t}else{$f}};}
+macro_rules! test {($n:expr)=>(for _ in 0..tny!(($n)!=0;($n);_i().scan()){solve();})}
+macro_rules! tny {($c:expr;$t:expr;$f:expr)=>{if $c{$t}else{$f}};}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(_o(),$($fmt)*))}
 macro_rules! print {($($fmt:tt)*)=>(write!(_o(),$($fmt)*))}
 macro_rules! flush {()=>{_o().flush().unwrap()};}
 
-fn main() { test!(0); flush!(); }
+fn main() { test!(1); flush!(); }
 fn solve() {
+  input! {
+    n: usize,
+    a: [usize; n],
+  }
+  for i in 0..n {
+    print!("{} ", a[i]);
+  }
+  println!();
 }
