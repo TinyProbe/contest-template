@@ -7,12 +7,12 @@ use std::mem::swap;
 use std::cmp::{max, min};
 type Queue<T> = LinkedList<T>;
 
-struct Scanner<R: BufRead> {
+struct UnsafeScanner<R: BufRead> {
   reader: R,
   buf_str: Vec<u8>,
   buf_iter: std::str::SplitAsciiWhitespace<'static>,
 }
-impl<R: BufRead> Scanner<R> {
+impl<R: BufRead> UnsafeScanner<R> {
   fn new(reader: R) -> Self {
     Self {
       reader,
@@ -36,11 +36,11 @@ impl<R: BufRead> Scanner<R> {
     }
   }
 }
-fn _i() -> &'static mut Scanner<StdinLock<'static>> {
-  static mut SCN: Option<Scanner<StdinLock>> = None;
+fn _i() -> &'static mut UnsafeScanner<StdinLock<'static>> {
+  static mut SCN: Option<UnsafeScanner<StdinLock>> = None;
   unsafe {
     if let None = SCN {
-      SCN = Some(Scanner::new(stdin().lock()));
+      SCN = Some(UnsafeScanner::new(stdin().lock()));
     }
     return SCN.as_mut().unwrap();
   }
@@ -77,20 +77,16 @@ macro_rules! input_inner {
   (usize_1)=>{input_inner!(usize)-1};
   ($t:ty)=>{_i().scan::<$t>()};
 }
-macro_rules! test {($n:expr)=>(for _ in 0..tny!(($n)!=0;($n);_i().scan()){solve();})}
 macro_rules! tny {($c:expr;$t:expr;$f:expr)=>{if $c{$t}else{$f}};}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(_o(),$($fmt)*))}
 macro_rules! print {($($fmt:tt)*)=>(write!(_o(),$($fmt)*))}
-macro_rules! flush {()=>{_o().flush().unwrap()};}
 
-fn main() { test!(1); flush!(); }
 fn solve() {
-  input! {
-    n: usize,
-    a: [usize; n],
-  }
-  for i in 0..n {
-    print!("{} ", a[i]);
-  }
-  println!();
+}
+
+fn main() {
+  let T = 1usize;
+  input![T: usize];
+  for _ in 0..T { solve(); }
+  _o().flush().unwrap();
 }
