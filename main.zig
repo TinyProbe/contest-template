@@ -53,6 +53,10 @@ pub fn main() !void {
 }
 
 fn solve() !void {
-  const n = try scanner.next(usize);
-  try writer.print("{d}\n", .{ n });
+  // for (0 .. 5) |i| {
+  //   _ = i;
+  //   const n = try scanner.next(i32);
+  //   try writer.print("{d} ", .{ n });
+  // }
+  // try writer.print("\n", .{});
 }
