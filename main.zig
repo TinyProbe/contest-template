@@ -53,10 +53,78 @@ pub fn main() !void {
 }
 
 fn solve() !void {
-  // for (0 .. 5) |i| {
-  //   _ = i;
-  //   const n = try scanner.next(i32);
-  //   try writer.print("{d} ", .{ n });
-  // }
-  // try writer.print("\n", .{});
+  
+}
+
+fn suggestion1() !void {
+  const arr = [_]i32 { 1, 2, 3, 4, 5 };
+
+  // Currently, there are three ways to use the for loop.
+  //
+  for (0 .. 5) |i| { // 0, 1, 2, 3, 4
+    try writer.print("{d} ", .{ i });
+  }
+  try writer.print("\n", .{});
+
+  for (arr) |*e| { // 1, 2, 3, 4, 5
+    try writer.print("{d} ", .{ e.* });
+  }
+  try writer.print("\n", .{});
+
+  for (arr, 0 ..) |*e, i| { // 1, 2, 3, 4, 5 // 0, 1, 2, 3, 4
+    try writer.print("{d} {d} ", .{ e.*, i });
+  }
+  try writer.print("\n", .{});
+
+  // However, it doesn't provide a way to iterate in reverse order.
+  // So, to repeat in reverse order, you must use a while statement.
+  //
+  var i: isize = arr.len - 1;
+  while (i >= 0) : (i -= 1) {
+    // ...
+  }
+
+  // Why not use this simple and modern methods of iterate with reverse.
+  // This intuitively conveys to the programmer that the order is being
+  // reversed.
+  //
+  for !(0 .. 5) |i| { // 4, 3, 2, 1, 0
+    try writer.print("{d} ", .{ i });
+  }
+  try writer.print("\n", .{});
+
+  for !(arr) |*e| { // 5, 4, 3, 2, 1
+    try writer.print("{d} ", .{ e.* });
+  }
+  try writer.print("\n", .{});
+
+  for !(arr, 0 ..) |*e, i| { // 5, 4, 3, 2, 1 // 4, 3, 2, 1, 0
+    try writer.print("{d} {d} ", .{ e.*, i });
+  }
+  try writer.print("\n", .{});
+
+  // Since it becomes clear when to use while statements and when to use for
+  // statements, I think grammatical consistency can be improved.
+  //
+  const val: ?i32 = null;
+  while (val) |v| {
+    try writer.print("{d}\n", .{ v });
+  } else {
+    try writer.print("null\n", .{});
+  }
+
+  const a: i32 = l1: while (!std.ascii.isWhitespace('a')) {
+    break :l1 10;
+  } else {
+    break :l1 20;
+  };
+
+  var tot: i32 = 0;
+  for (0 .. 10) |i| {
+    for !(i .. 10) |j| {
+      for (i .. j + 1) |k| { tot += k; }
+      for !(i .. j + 1) |k| { tot += k; }
+    }
+  }
+  try writer.print("{d}\n". { tot });
 }
