@@ -1,10 +1,14 @@
 const std = @import("std");
-var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
 const allocator = gpa.allocator();
+
 var buffered_reader = std.io.bufferedReader(std.io.getStdIn().reader());
 const reader = buffered_reader.reader();
 var buffered_writer = std.io.bufferedWriter(std.io.getStdOut().writer());
 const writer = buffered_writer.writer();
+
+var scanner = Scanner.new();
+
 const Scanner = struct {
   fn new() Self {
     return Self {};
@@ -39,8 +43,6 @@ const Scanner = struct {
   buffer: [1 << 20]u8 = undefined,
 };
 
-var scanner = Scanner.new();
-const ArrayList = std.ArrayList;
 
 pub fn main() !void {
   defer {
@@ -49,9 +51,11 @@ pub fn main() !void {
   }
   var t: usize = 1;
   // t = try scanner.next(usize);
-  while (t > 0) : (t -= 1) { try solve(); }
+  while (t > 0) : (t -= 1) {
+    try solve();
+  }
 }
 
 fn solve() !void {
-  
+  try writer.print("hello, world!\n", .{});
 }
