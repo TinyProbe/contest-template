@@ -1,5 +1,5 @@
 const std = @import("std");
-var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
 const allocator = gpa.allocator();
 
 var buffered_reader = std.io.bufferedReader(std.io.getStdIn().reader());
