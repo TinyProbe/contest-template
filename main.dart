@@ -10,7 +10,7 @@ class Scanner {
     while (true) {
       String? ln = stdin.readLineSync();
       if (ln == null) { break; }
-      buffer += ln!;
+      buffer += ln! + " ";
     }
     _words = buffer.split(" ");
     _words.removeWhere((item) => item.isEmpty);
