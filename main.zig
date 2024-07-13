@@ -10,6 +10,9 @@ const writer = buffered_writer.writer();
 var scanner = Scanner.new();
 
 const Scanner = struct {
+  const Self = @This();
+  buffer: [1 << 20]u8 = undefined,
+
   fn new() Self {
     return Self {};
   }
@@ -39,10 +42,7 @@ const Scanner = struct {
       else => return error { NotSupportType }.NotSupportType,
     }
   }
-  const Self = @This();
-  buffer: [1 << 20]u8 = undefined,
 };
-
 
 pub fn main() !void {
   defer {
