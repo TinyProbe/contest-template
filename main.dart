@@ -15,17 +15,21 @@ class Scanner {
     _words = buffer.split(" ");
     _words.removeWhere((item) => item.isEmpty);
   }
-
-  String _next_word() { return _words[_idx++]; }
+  String? _nextItem() {
+    if (_idx < _words.length) {
+      return _words[_idx++];
+    }
+    return null;
+  }
   T? next<T extends Object>() {
     if (T == String) {
-      return _next_word() as T;
+      return _nextItem()! as T;
     } else if (T == int) {
-      return int.parse(_next_word()) as T;
+      return int.parse(_nextItem()!) as T;
     } else if (T == double) {
-      return double.parse(_next_word()) as T;
+      return double.parse(_nextItem()!) as T;
     } else if (T == bool) {
-      return bool.parse(_next_word()) as T;
+      return bool.parse(_nextItem()!) as T;
     }
     return null;
   }
