@@ -81,12 +81,15 @@ macro_rules! tny {($c:expr;$t:expr;$f:expr)=>{if $c{$t}else{$f}};}
 macro_rules! println {($($fmt:tt)*)=>(writeln!(_o(),$($fmt)*))}
 macro_rules! print {($($fmt:tt)*)=>(write!(_o(),$($fmt)*))}
 
-fn solve() {
-}
-
 fn main() {
   let T = 1usize;
   input![T: usize];
-  for _ in 0..T { solve(); }
+  for _ in 0..T {
+    solve();
+  }
   _o().flush().unwrap();
+}
+
+fn solve() {
+  println!("hello world!");
 }
