@@ -35,14 +35,13 @@ class Scanner {
   }
 }
 
-var sc = Scanner();
+var scanner = Scanner();
 
 void main() {
   var t = 1;
-  t = sc.next<int>()!;
+  // t = scanner.next<int>()!;
   while (t-- > 0) { solve(); }
 }
 
 void solve() {
-  print("hello world!");
 }
