@@ -1,11 +1,9 @@
 #![allow(dead_code, unused)]
 
 use std::io::*;
-use std::{isize, usize};
 use std::collections::*;
-use std::mem::swap;
-use std::cmp::{max, min};
-type Queue<T> = LinkedList<T>;
+use std::{ isize, usize };
+use std::{ mem, cmp };
 
 struct UnsafeScanner<R: BufRead> {
   reader: R,
@@ -82,14 +80,11 @@ macro_rules! println {($($fmt:tt)*)=>(writeln!(_o(),$($fmt)*))}
 macro_rules! print {($($fmt:tt)*)=>(write!(_o(),$($fmt)*))}
 
 fn main() {
-  let T = 1usize;
-  input![T: usize];
-  for _ in 0..T {
-    solve();
-  }
+  let t = 1usize;
+  // input! { t: usize }
+  for _ in 0 .. t { solve(); }
   _o().flush().unwrap();
 }
 
 fn solve() {
-  println!("hello world!");
 }
