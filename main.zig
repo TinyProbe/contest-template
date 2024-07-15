@@ -43,7 +43,7 @@ pub fn main() !void {
     buffered_writer.flush() catch unreachable;
   }
   var t: usize = 1;
-  // t = try scanner.next(usize);
+  // t = try Scanner.next(usize);
   while (t > 0) : (t -= 1) { try solve(); }
 }
 
