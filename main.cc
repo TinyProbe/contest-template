@@ -19,10 +19,7 @@ class Scanner {
   usize len, cur;
 
  public:
-  Scanner() {
-    len = fread(buffer, sizeof(i8), BUFFER_SIZE, stdin);
-    cur = 0;
-  }
+  Scanner() : len(fread(buffer, sizeof(i8), BUFFER_SIZE, stdin)), cur() {}
   inline bool _isspace(i8 c) { return (c>=9 && c<=13) || c==' '; }
   inline i64 _atoll(i8 const *s) {
     i64 res = 0;
@@ -57,8 +54,6 @@ void solve() {
 }
 
 int main() {
-  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-  cout << fixed << setprecision(20);
   usize t = 1;
   // scan >> t;
   while (t--) { solve(); }
