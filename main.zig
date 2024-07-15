@@ -3,41 +3,33 @@ var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
 const allocator = gpa.allocator();
 
 var buffered_reader = std.io.bufferedReader(std.io.getStdIn().reader());
-const reader = buffered_reader.reader();
 var buffered_writer = std.io.bufferedWriter(std.io.getStdOut().writer());
+const reader = buffered_reader.reader();
 const writer = buffered_writer.writer();
 
-var scanner = Scanner.new();
-
 const Scanner = struct {
-  const Self = @This();
-  buffer: [1 << 20]u8 = undefined,
+  var buffer: [1 << 22]u8 = undefined; // wanning: string cutting
+  var len: usize = 0;
+  var cur: usize = 0;
 
-  fn new() Self {
-    return Self {};
-  }
-  fn nextItem(self: *Self) ![]const u8 {
-    var byte: u8 = try reader.readByte();
-    while (std.ascii.isWhitespace(byte)) {
-      byte = try reader.readByte();
+  fn nextItem() ![]const u8 {
+    if (cur == len) {
+      len = try reader.readAll(&buffer);
+      cur = 0;
     }
-    for (0 .. self.buffer.len) |i| {
-      self.buffer[i] = byte;
-      byte = try reader.readByte();
-      if (std.ascii.isWhitespace(byte)) {
-        return self.buffer[0 .. i + 1];
-      }
-    }
-    return self.buffer[0 .. self.buffer.len];
+    while (cur < len and std.ascii.isWhitespace(buffer[cur])) { cur += 1; }
+    const l = cur;
+    while (cur < len and !std.ascii.isWhitespace(buffer[cur])) { cur += 1; }
+    return buffer[l .. cur];
   }
-  fn next(self: *Self, comptime T: type) !T {
+  fn next(comptime T: type) !T {
     switch (@typeInfo(T)) {
-      .Int => return try std.fmt.parseInt(T, try self.nextItem(), 10),
-      .Float => return try std.fmt.parseFloat(T, try self.nextItem()),
+      .Int => return try std.fmt.parseInt(T, try nextItem(), 10),
+      .Float => return try std.fmt.parseFloat(T, try nextItem()),
       .Struct => {
-        var arrlist = T.init(allocator);
-        try arrlist.appendSlice(try self.nextItem());
-        return arrlist;
+        var arrlst = T.init(allocator);
+        try arrlst.appendSlice(try nextItem());
+        return arrlst;
       },
       else => return error { NotSupportType }.NotSupportType,
     }
@@ -46,16 +38,14 @@ const Scanner = struct {
 
 pub fn main() !void {
   defer {
-    if (gpa.deinit() == .leak) unreachable;
+    // if (gpa.deinit() == .leak) unreachable;
+    if (gpa.deinit()) unreachable;
     buffered_writer.flush() catch unreachable;
   }
   var t: usize = 1;
   // t = try scanner.next(usize);
-  while (t > 0) : (t -= 1) {
-    try solve();
-  }
+  while (t > 0) : (t -= 1) { try solve(); }
 }
 
 fn solve() !void {
-  try writer.print("hello, world!\n", .{});
 }
