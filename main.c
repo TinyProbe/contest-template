@@ -6,9 +6,9 @@
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
-#define true    (u8)1
-#define false   (u8)0
-#define null    (void *)0
+#define true  (u8)1
+#define false (u8)0
+#define null  (void *)0
 #define getc getchar_unlocked
 #define putc putchar_unlocked
 
