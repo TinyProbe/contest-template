@@ -32,20 +32,21 @@ int putchar_unlocked(int c);
 bool _isspace(i8 c) { return (c>=9 && c<=13) || c==' '; }
 bool _isdigit(i8 c) { return c>='0' && c<='9'; }
 i64 readi(void) {
-  i64   res = 0;
-  bool  pos = true;
-  i8    c = getc();
+  i64     res = 0;
+  bool    pos = true;
+  i8      c = getc();
   while (c!=-1 && _isspace(c)) { c = getc(); }
   if (c=='-' || c=='+') { pos = c=='+', c = getc(); }
-  while (c!=-1 && _isdigit(c)) { res = (res<<1) + (res<<3) + (c^'0'), c = getc(); }
+  while (c!=-1 && _isdigit(c))
+    res = (res<<1) + (res<<3) + (c^'0'), c = getc();
   while (c!=-1 && !_isspace(c)) { c = getc(); }
   return pos ? res : -res;
 }
 void writes(i8 const *s) { while (*s) { putc(*(s++)); } }
 void writei(i64 n) {
   static usize const SIZE = 1 << 5;
-  i8      buffer[SIZE];
-  usize   i = SIZE - 1;
+  i8        buffer[SIZE];
+  usize     i = SIZE - 1;
   if (!n) { putc('0'); return; }
   buffer[i] = '\0';
   while (n) { buffer[--i] = (n % 10 + '0'), n /= 10; }
