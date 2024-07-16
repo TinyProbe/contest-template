@@ -26,9 +26,8 @@ class Scanner {
     i64 res = 0;
     bool pos = true;
     if (*s=='-' || *s=='+') { pos = *(s++)=='+'; }
-    while (*s && _isdigit(*s)) {
+    while (*s && _isdigit(*s))
       res = (res<<1) + (res<<3) + (*(s++)^'0');
-    }
     return pos ? res : -res;
   }
   inline i8 const *nextItem() {
