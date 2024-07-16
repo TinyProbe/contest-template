@@ -35,7 +35,7 @@ i64 readi(void) {
   bool  pos = true;
   i8    c = getc();
   while (c!=-1 && _isspace(c)) { c = getc(); }
-  if (c=='-' || c=='+') { pos = (c=='+'); c = getc(); }
+  if (c=='-' || c=='+') { pos = c=='+'; c = getc(); }
   while (c!=-1 && _isdigit(c)) {
     res = (res<<1) + (res<<3) + (c^'0');
     c = getc();
