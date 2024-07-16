@@ -9,8 +9,8 @@
 #define true  (u8)1
 #define false (u8)0
 #define null  (void *)0
-#define getc getchar_unlocked
-#define putc putchar_unlocked
+#define getc  getchar_unlocked
+#define putc  putchar_unlocked
 
 typedef unsigned char       u8;
 typedef unsigned short      u16;
@@ -29,28 +29,35 @@ typedef u8                  bool;
 int getchar_unlocked(void);
 int putchar_unlocked(int c);
 
+i8 _buff[1 << 5];
+
 bool _isspace(i8 c) { return (c>=9 && c<=13) || c==' '; }
 bool _isdigit(i8 c) { return c>='0' && c<='9'; }
+void reads(i8 *s) { // no check range.
+  *s = getc();
+  while (*s!=-1 && _isspace(*s)) { *s = getc(); }
+  while (*s!=-1 && !_isspace(*s)) { *++s = getc(); }
+  *s = '\0';
+}
 i64 readi(void) {
+  usize   i = 0;
   i64     res = 0;
   bool    pos = true;
-  i8      c = getc();
-  while (c!=-1 && _isspace(c)) { c = getc(); }
-  if (c=='-' || c=='+') { pos = c=='+', c = getc(); }
-  while (c!=-1 && _isdigit(c))
-    res = (res<<1) + (res<<3) + (c^'0'), c = getc();
-  while (c!=-1 && !_isspace(c)) { c = getc(); }
+  reads(_buff);
+  if (_buff[i]=='-' || _buff[i]=='+')
+    pos = _buff[i++]=='+';
+  while (_buff[i] && _isdigit(_buff[i]))
+    res = (res<<1) + (res<<3) + (_buff[i++]^'0');
   return pos ? res : -res;
 }
 void writes(i8 const *s) { while (*s) { putc(*(s++)); } }
 void writei(i64 n) {
-  static usize const SIZE = 1 << 5;
-  i8        buffer[SIZE];
-  usize     i = SIZE - 1;
+  usize   i = (1 << 5) - 1;
   if (!n) { putc('0'); return; }
-  buffer[i] = '\0';
-  while (n) { buffer[--i] = (n % 10 + '0'), n /= 10; }
-  writes(buffer + i);
+  _buff[i] = '\0';
+  while (n)
+    _buff[--i] = (n % 10 + '0'), n /= 10;
+  writes(_buff + i);
 }
 
 void solve(void); int main(void) {
