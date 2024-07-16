@@ -21,11 +21,14 @@ class Scanner {
  public:
   Scanner() : len(fread(buffer, sizeof(i8), BUFFER_SIZE, stdin)), cur() {}
   inline bool _isspace(i8 c) { return (c>=9 && c<=13) || c==' '; }
+  inline bool _isdigit(i8 c) { return c>='0' && c<='9'; }
   inline i64 _atoll(i8 const *s) {
     i64 res = 0;
     bool pos = true;
     if (*s=='-' || *s=='+') { pos = *(s++)=='+'; }
-    while (*s) { res = (res<<1) + (res<<3) + (*(s++)^'0'); }
+    while (*s && _isdigit(*s)) {
+      res = (res<<1) + (res<<3) + (*(s++)^'0');
+    }
     return pos ? res : -res;
   }
   inline i8 const *nextItem() {
