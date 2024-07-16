@@ -55,8 +55,7 @@ void writei(i64 n) {
   while (i < SIZE) { putc(buffer[i++]); }
 }
 void writes(i8 const *s) {
-  usize i = 0;
-  while (s[i]) { putc(s[i++]); }
+  while (*s) { putc(*(s++)); }
 }
 
 void solve(void); int main(void) {
