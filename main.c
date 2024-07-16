@@ -44,10 +44,10 @@ i64 readi(void) {
   i64     res = 0;
   bool    pos = true;
   reads(_buff);
-  if (_buff[i]=='-' || _buff[i]=='+')
-    pos = _buff[i++]=='+';
-  while (_buff[i] && _isdigit(_buff[i]))
+  if (_buff[i]=='-' || _buff[i]=='+') { pos = _buff[i++]=='+'; }
+  while (_buff[i] && _isdigit(_buff[i])) {
     res = (res<<1) + (res<<3) + (_buff[i++]^'0');
+  }
   return pos ? res : -res;
 }
 void writes(i8 const *s) { while (*s) { putc(*(s++)); } }
@@ -55,8 +55,9 @@ void writei(i64 n) {
   usize   i = (1 << 5) - 1;
   if (!n) { putc('0'); return; }
   _buff[i] = '\0';
-  while (n)
+  while (n) {
     _buff[--i] = (n % 10 + '0'), n /= 10;
+  }
   writes(_buff + i);
 }
 
