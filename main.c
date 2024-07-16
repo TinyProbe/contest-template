@@ -6,8 +6,9 @@
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
-#define true  (u8)1
-#define false (u8)0
+#define true    (u8)1
+#define false   (u8)0
+#define nullptr (void *)0
 #define getc getchar_unlocked
 #define putc putchar_unlocked
 
@@ -35,27 +36,20 @@ i64 readi(void) {
   bool  pos = true;
   i8    c = getc();
   while (c!=-1 && _isspace(c)) { c = getc(); }
-  if (c=='-' || c=='+') { pos = c=='+'; c = getc(); }
-  while (c!=-1 && _isdigit(c)) {
-    res = (res<<1) + (res<<3) + (c^'0');
-    c = getc();
-  }
+  if (c=='-' || c=='+') { pos = c=='+', c = getc(); }
+  while (c!=-1 && _isdigit(c)) { res = (res<<1) + (res<<3) + (c^'0'), c = getc(); }
   while (c!=-1 && !_isspace(c)) { c = getc(); }
   return pos ? res : -res;
 }
+void writes(i8 const *s) { while (*s) { putc(*(s++)); } }
 void writei(i64 n) {
-  static usize const SIZE = 1 << 8;
+  static usize const SIZE = 1 << 5;
   i8      buffer[SIZE];
-  usize   i = SIZE;
+  usize   i = SIZE - 1;
   if (!n) { putc('0'); return; }
-  while (n) {
-    buffer[--i] = n % 10 + '0';
-    n /= 10;
-  }
-  while (i < SIZE) { putc(buffer[i++]); }
-}
-void writes(i8 const *s) {
-  while (*s) { putc(*(s++)); }
+  buffer[i] = '\0';
+  while (n) { buffer[--i] = (n % 10 + '0'), n /= 10; }
+  writes(buffer + i);
 }
 
 void solve(void); int main(void) {
