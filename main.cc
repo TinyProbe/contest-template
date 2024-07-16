@@ -50,13 +50,13 @@ class Scanner {
   inline Scanner &operator>>(string &ref) { ref = string(nextItem()); return *this; }
 } scan;
 
-void solve() {
-}
-
-int main() {
+void solve(); int main() {
   ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(20);
   usize t = 1;
   // scan >> t;
   while (t--) { solve(); }
+}
+
+void solve() {
 }
