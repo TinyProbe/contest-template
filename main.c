@@ -77,6 +77,4 @@ void solve(void); int main(void) {
 }
 
 void solve(void) {
-  usize a = readi(), b = readi();
-
 }
