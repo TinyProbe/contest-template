@@ -62,8 +62,7 @@ void writei(i64 n) {
   usize   i = (1 << 5);
   bool    pos = n >= 0;
   _io[--i] = '\0';
-  if (!n)
-    _io[--i] = '0';
+  if (!n) { _io[--i] = '0'; }
   else while (n)
     _io[--i] = (n % 10 + '0'), n /= 10;
   if (!pos) { _io[--i] = '-'; }
@@ -72,10 +71,12 @@ void writei(i64 n) {
 
 void solve(void); int main(void) {
   usize t = 1;
-  // t = readi();
+  t = readi();
   while (t--) { solve(); }
   return 0;
 }
 
 void solve(void) {
+  usize a = readi(), b = readi();
+
 }
