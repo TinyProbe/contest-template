@@ -37,6 +37,8 @@ i8 _io[1 << 5];
 int getchar_unlocked(void);
 int putchar_unlocked(int c);
 
+i64 gcd(i64 a, i64 b) { return b ? gcd(b, a % b) : a; }
+i64 lcm(i64 a, i64 b) { return a * b / gcd(a, b); }
 bool _isspace(i8 c) { return (c>=9 && c<=13) || c==' '; }
 bool _isdigit(i8 c) { return c>='0' && c<='9'; }
 usize reads(i8 *const s) { // no check memory.
@@ -51,8 +53,7 @@ i64 readi(void) {
   bool    pos = true;
   i64     res = 0;
   reads(_io);
-  if (_io[i]=='-' || _io[i]=='+')
-    pos = _io[i++]=='+';
+  if (_io[i]=='-' || _io[i]=='+') { pos = _io[i++]=='+'; }
   while (_io[i] && _isdigit(_io[i]))
     res = (res<<1) + (res<<3) + (_io[i++]^'0');
   return pos ? res : -res;
@@ -62,9 +63,7 @@ void writei(i64 n) {
   usize   i = (1 << 5);
   bool    pos = n >= 0;
   _io[--i] = '\0';
-  if (!n) { _io[--i] = '0'; }
-  else while (n)
-    _io[--i] = (n % 10 + '0'), n /= 10;
+  do { _io[--i] = (n % 10 + '0'), n /= 10; } while (n);
   if (!pos) { _io[--i] = '-'; }
   writes(_io + i);
 }
