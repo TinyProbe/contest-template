@@ -10,13 +10,8 @@
 #define true  (u8)1
 #define false (u8)0
 #define null  (void *)0
-#if (__STDC_VERSION__ >= 201112L)
-# define getc getchar
-# define putc putchar
-#else
-# define getc getchar_unlocked
-# define putc putchar_unlocked
-#endif
+#define getc  getchar
+#define putc  putchar
 
 typedef unsigned char       u8;
 typedef unsigned short      u16;
