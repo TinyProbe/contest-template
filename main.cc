@@ -22,11 +22,8 @@ class Fastio {
 
   inline static bool _isspace(i8 c) { return (c >= 9 && c <= 13) || c == ' '; }
   inline static bool _isdigit(i8 c) { return c >= '0' && c <= '9'; }
-  inline static i32 lowercmp(i8 const *s1, i8 const *s2) {
-    while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) { ++s1, ++s2; }
-    return tolower(*s1) - tolower(*s2);
-  }
-  template <typename T> inline bool isliteral() {
+  template <typename T>
+  inline static bool isliteral() {
     return typeid(T) == typeid(bool)
         || typeid(T) == typeid(i8 *)
         || typeid(T) == typeid(i8 const *)
@@ -43,6 +40,10 @@ class Fastio {
         || typeid(T) == typeid(isize)
         || typeid(T) == typeid(f32)
         || typeid(T) == typeid(f64);
+  }
+  inline static i32 lowercmp(i8 const *s1, i8 const *s2) {
+    while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) { ++s1, ++s2; }
+    return tolower(*s1) - tolower(*s2);
   }
   inline i8 _getchar() {
     if (pb_ == pe_) {
