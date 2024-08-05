@@ -12,35 +12,23 @@ using i64 = long long;
 using isize = long;
 using f32 = float;
 using f64 = double;
+using f128 = long double;
 
-#define BUFF_SIZE (1 << 20)
+#define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define setprecision(n) cout << fixed << setprecision(n)
+#define loop(var, init, end) \
+    for (isize var = (init), __init = (init), __end = (end); \
+        __init < __end ? var < __end : var-- > __end; \
+        var += __init < __end ? 1 : 0)
 
 class Fastio {
+  static constexpr usize BUFF_SIZE = 1 << 20;
   i8 ibuff_[BUFF_SIZE], *pb_, *pe_, c_, delim_;
   string obuff_, item_;
   bool state_;
 
   inline static bool _isspace(i8 c) { return (c >= 9 && c <= 13) || c == ' '; }
   inline static bool _isdigit(i8 c) { return c >= '0' && c <= '9'; }
-  template <typename T>
-  inline static bool isliteral() {
-    return typeid(T) == typeid(bool)
-        || typeid(T) == typeid(i8 *)
-        || typeid(T) == typeid(i8 const *)
-        || typeid(T) == typeid(string)
-        || typeid(T) == typeid(u8)
-        || typeid(T) == typeid(u16)
-        || typeid(T) == typeid(u32)
-        || typeid(T) == typeid(u64)
-        || typeid(T) == typeid(usize)
-        || typeid(T) == typeid(i8)
-        || typeid(T) == typeid(i16)
-        || typeid(T) == typeid(i32)
-        || typeid(T) == typeid(i64)
-        || typeid(T) == typeid(isize)
-        || typeid(T) == typeid(f32)
-        || typeid(T) == typeid(f64);
-  }
   inline static i32 lowercmp(i8 const *s1, i8 const *s2) {
     while (*s1 && *s2 && tolower(*s1) == tolower(*s2)) { ++s1, ++s2; }
     return tolower(*s1) - tolower(*s2);
@@ -53,18 +41,18 @@ class Fastio {
     return pb_ == pe_ ? state_ = false : *(pb_++);
   }
   inline bool next_bool() {
-    const i8 *s = next_item().c_str();
+    i8 const *s = next_item().c_str();
     return (!lowercmp(s, "true") ? true
             : (!lowercmp(s, "false") ? false : atoll(s)));
   }
-  inline i8 next_char(i8 src) {
+  inline i8 next_char() {
     while (_isspace(c_ = _getchar()));
-    return (c_ ? c_ : src);
+    return c_;
   }
   inline string const &next_item() {
     item_.clear();
     while (_isspace(c_ = _getchar()));
-    do { item_ += c_; } while ((c_ = _getchar()) && !_isspace(c_));
+    while (c_ && !_isspace(c_)) { item_ += c_, c_ = _getchar(); } 
     return item_;
   }
   inline i64 next_llong() {
@@ -84,7 +72,7 @@ class Fastio {
   }
  public:
   Fastio() : pb_(), pe_(), c_(), delim_(' '), state_(true) {}
-  ~Fastio() { flush(); }
+  ~Fastio() { flush(); assert(*this && !(*this >> c_)); }
 
   inline void setdelimiter(i8 c) { delim_ = c; }
   inline void flush() {
@@ -94,7 +82,7 @@ class Fastio {
 
   operator bool() { return state_; }
 
-  template <typename T>
+  template <class T>
   inline Fastio &operator>>(T &ref)      { for (auto &e : ref) *this >> e; return *this; }
   inline Fastio &operator>>(bool &ref)   { ref = next_bool(); return *this; }
   inline Fastio &operator>>(string &ref) { ref = move(next_item()); return *this; }
@@ -104,40 +92,40 @@ class Fastio {
   inline Fastio &operator>>(u32 &ref)    { ref = next_ullong(); return *this; }
   inline Fastio &operator>>(u64 &ref)    { ref = next_ullong(); return *this; }
   inline Fastio &operator>>(usize &ref)  { ref = next_ullong(); return *this; }
-  inline Fastio &operator>>(i8 &ref)     { ref = next_char(ref); return *this; }
+  inline Fastio &operator>>(i8 &ref)     { ref = next_char(); return *this; }
   inline Fastio &operator>>(i16 &ref)    { ref = next_llong(); return *this; }
   inline Fastio &operator>>(i32 &ref)    { ref = next_llong(); return *this; }
   inline Fastio &operator>>(i64 &ref)    { ref = next_llong(); return *this; }
   inline Fastio &operator>>(isize &ref)  { ref = next_llong(); return *this; }
   inline Fastio &operator>>(f32 &ref)    { ref = atof(next_item().c_str()); return *this; }
   inline Fastio &operator>>(f64 &ref)    { ref = atof(next_item().c_str()); return *this; }
+  inline Fastio &operator>>(f128 &ref)   { ref = atof(next_item().c_str()); return *this; }
 
-  template <typename T>
-  inline Fastio &operator<<(const T &ref) {
-    bool is = isliteral<typename T::value_type>();
-    for (auto &e : ref) *this << e << (is ? delim_ : '\n');
-    return *this;
+  template <class T>
+  inline Fastio &operator<<(T const &ref) {
+    for (auto &e : ref) *this << e << delim_;
+    return *this << '\n';
   }
-  inline Fastio &operator<<(bool val)      { return *this << (val ? "true" : "false"); }
+  inline Fastio &operator<<(bool val)  { return *this << (val ? "true" : "false"); }
   inline Fastio &operator<<(string const &ref) { obuff_ += ref; return *this; }
   inline Fastio &operator<<(i8 const *ptr) { obuff_ += ptr; return *this; }
-  inline Fastio &operator<<(u8 val)        { return *this << to_string(val); }
-  inline Fastio &operator<<(u16 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(u32 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(u64 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(usize val)     { return *this << to_string(val); }
-  inline Fastio &operator<<(i8 val)        { obuff_ += val; return *this; }
-  inline Fastio &operator<<(i16 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(i32 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(i64 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(isize val)     { return *this << to_string(val); }
-  inline Fastio &operator<<(f32 val)       { return *this << to_string(val); }
-  inline Fastio &operator<<(f64 val)       { return *this << to_string(val); }
+  inline Fastio &operator<<(u8 val)    { return *this << to_string(val); }
+  inline Fastio &operator<<(u16 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(u32 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(u64 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(usize val) { return *this << to_string(val); }
+  inline Fastio &operator<<(i8 val)    { obuff_ += val; return *this; }
+  inline Fastio &operator<<(i16 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(i32 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(i64 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(isize val) { return *this << to_string(val); }
+  inline Fastio &operator<<(f32 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(f64 val)   { return *this << to_string(val); }
+  inline Fastio &operator<<(f128 val)  { return *this << to_string(val); }
 } fio;
 
 void solve(); int main() {
-  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
-  cout << fixed << setprecision(20);
+  fastio, setprecision(20);
   usize t = 1;
   // fio >> t;
   while (t--) { solve(); }
