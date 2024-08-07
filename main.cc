@@ -14,12 +14,10 @@ using f32 = float;
 using f64 = double;
 using f128 = long double;
 
-#define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
-#define setprecision(n) cout << fixed << setprecision(n)
 #define loop(var, init, end) \
-    for (isize var = (init), __init = (init), __end = (end); \
+    for (i64 var = (init), __init = (init), __end = (end); \
         __init < __end ? var < __end : var-- > __end; \
-        var += __init < __end ? 1 : 0)
+        __init < __end ? ++var : var)
 
 class Fastio {
   static constexpr usize BUFF_SIZE = 1 << 20;
@@ -125,7 +123,8 @@ class Fastio {
 } fio;
 
 void solve(); int main() {
-  fastio, setprecision(20);
+  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cout << fixed << setprecision(20);
   usize t = 1;
   // fio >> t;
   while (t--) { solve(); }
