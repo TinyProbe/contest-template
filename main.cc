@@ -15,9 +15,9 @@ using f64 = double;
 using f128 = long double;
 
 #define loop(var, init, end) \
-    for (i64 var = (init), __init = (init), __end = (end); \
-        __init < __end ? var < __end : var-- > __end; \
-        __init < __end ? ++var : var)
+    for (i64 var = (init), __asc = (init) < (end); \
+        __asc ? var < (end) : var-- > (end); \
+        __asc ? ++var : var)
 
 class Fastio {
   static constexpr usize BUFF_SIZE = 1 << 20;
