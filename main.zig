@@ -8,7 +8,7 @@ const reader = buffered_reader.reader();
 const writer = buffered_writer.writer();
 
 const Scanner = struct {
-  var buffer: [1 << 10]u8 = undefined;
+  var buffer: [1 << 24]u8 = undefined;
   var len: usize = 0;
   var cur: usize = 0;
 
@@ -48,4 +48,5 @@ pub fn main() !void {
 }
 
 fn solve() !void {
+  std.debug.print("hello world!\n", .{});
 }
