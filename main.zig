@@ -1,20 +1,20 @@
 const std = @import("std");
+
 var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
 const allocator = gpa.allocator();
-
 var buffered_reader = std.io.bufferedReader(std.io.getStdIn().reader());
 var buffered_writer = std.io.bufferedWriter(std.io.getStdOut().writer());
 const reader = buffered_reader.reader();
 const writer = buffered_writer.writer();
 
 const Scanner = struct {
-  var buffer: [1 << 22]u8 = undefined; // warning: string cutting.
+  var buffer: [1 << 10]u8 = undefined;
   var len: usize = 0;
   var cur: usize = 0;
 
   fn nextItem() ![]const u8 {
     if (cur == len) {
-      len = try reader.readAll(&buffer);
+      len = try reader.read(buffer[0 .. ]);
       cur = 0;
     }
     while (cur < len and std.ascii.isWhitespace(buffer[cur])) { cur += 1; }
@@ -31,7 +31,7 @@ const Scanner = struct {
         try arrlst.appendSlice(try nextItem());
         return arrlst;
       },
-      else => return error { NotSupportType }.NotSupportType,
+      else => return error.NotSupportedType,
     }
   }
 };
