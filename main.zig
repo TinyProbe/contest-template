@@ -1,5 +1,5 @@
 const std = @import("std");
-const stdc = @cImport(@cInclude("string.h")); // need -lc
+const string = @cImport(@cInclude("string.h")); // need -lc
 const Allocator = std.mem.Allocator;
 
 var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
@@ -13,15 +13,12 @@ pub fn main() !void {
 }
 
 pub fn solve() !void {
-  const s = scan(Str); defer s.deinit();
-  print("hello world! {s}\n", .{ s.data() });
 }
 
 fn readByte() ?u8 {
   const reader = std.io.getStdIn().reader();
   const static = struct {
-    const bufLen = 1 << 12;
-    var buf: [bufLen]u8 = undefined;
+    var buf: [1 << 16]u8 = undefined;
     var len: usize = 0;
     var cur: usize = 0;
   };
@@ -40,17 +37,17 @@ pub fn scan(comptime T: type) T {
   var s = Str.init(alloc);
   while (readByte()) |byte| {
     if (!std.ascii.isWhitespace(byte)) {
-      s.push(byte) catch @panic("scan(): s.push(): Error");
+      s.push(byte) catch @panic("scan(): Error");
       break;
     }
   }
   while (readByte()) |byte| {
     if (std.ascii.isWhitespace(byte)) { break; }
-    s.push(byte) catch @panic("scan(): s.push(): Error");
+    s.push(byte) catch @panic("scan(): Error");
   }
   if (T == Str) { return s; }
   defer s.deinit();
-  return parse(T, s) catch @panic("scan(): parse(): Error");
+  return parse(T, s) catch @panic("scan(): Error");
 }
 
 pub fn print(comptime fmt: []const u8, args: anytype) void {
@@ -151,8 +148,8 @@ pub fn Vec(comptime T: type) type {
                         pos: usize, n: usize, item: T) Allocator.Error!void {
       try self.arrayList.resize(self.arrayList.items.len + n);
       const items = self.arrayList.items;
-      std.mem.copyBackwards(
-          T, items[pos + n .. items.len], items[pos .. items.len - n]);
+      std.mem.copyBackwards(T, items[pos + n .. items.len],
+                            items[pos .. items.len - n]);
       @memset(items[pos .. pos + n], item);
     }
 
@@ -373,7 +370,7 @@ pub fn compareRange(lhs: Rng([*]u8), rhs: Rng([*]u8)) i32 {
 }
 
 pub fn compareSlice(lhs: []const u8, rhs: []const u8) i32 {
-  return @intCast(stdc.strcmp(@ptrCast(lhs), @ptrCast(rhs)));
+  return @intCast(string.strcmp(@ptrCast(lhs), @ptrCast(rhs)));
 }
 
 pub fn parse(comptime T: type, str: Str) !T {
