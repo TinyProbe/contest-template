@@ -1,31 +1,24 @@
 const std = @import("std");
 const string = @cImport(@cInclude("string.h")); // need -lc
 
-var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
-const allocator = gpa.allocator();
-
 pub fn main() !void {
-  defer if (gpa.deinit() == .leak) unreachable;
-
-  var timer = std.time.Timer.start() catch unreachable;
-
+  defer bufferedWriter.flush() catch unreachable;
   // var t = Rng(usize).init(0, 1);
   var t = Rng(usize).init(0, scan(usize));
   while (t.next()) |_| { try solve(); }
-
-  const elapsed = timer.read();
-  std.debug.print("{} ns\n", .{elapsed});
 }
 
 pub fn solve() !void {
-  const s = scan(usize);
-  _ = s;
+  print("{d}\n", .{scan(usize)});
 }
 
+var bufferedReader = std.io.BufferedReader(std.io.getStdIn().reader());
+var bufferedWriter = std.io.BufferedWriter(std.io.getStdOut().writer());
+
 fn readByte() ?u8 {
-  const reader = std.io.getStdIn().reader();
+  const reader = bufferedReader.reader();
   const static = struct {
-    var buf: [1 << 16]u8 = undefined;
+    var buf: [1 << 12]u8 = undefined;
     var len: usize = 0;
     var cur: usize = 0;
   };
@@ -62,10 +55,10 @@ pub fn scan(comptime T: type) T {
   };
 }
 
-// pub fn print(comptime fmt: []const u8, args: anytype) void {
-//   const writer = std.io.getStdOut().writer();
-//   writer.print(fmt, args) catch @panic("print(): Error");
-// }
+pub fn print(comptime fmt: []const u8, args: anytype) void {
+  const writer = bufferedWriter.writer();
+  writer.print(fmt, args) catch @panic("print(): Error");
+}
 
 pub fn compareSlice(lhs: []const u8, rhs: []const u8) i32 {
   return @intCast(string.strcmp(@ptrCast(lhs), @ptrCast(rhs)));
@@ -90,8 +83,7 @@ pub fn Rng(comptime T: type) type {
     pub fn init(left: T, right: T) Self {
       switch (@typeInfo(T)) {
         .pointer =>
-            if (@as(usize, @intFromPtr(left)) >
-                @as(usize, @intFromPtr(right)))
+            if (@as(usize, @intFromPtr(left)) > @as(usize, @intFromPtr(right)))
               @panic("Rng(T).init(): left > right"),
         .int => if (left > right) @panic("Rng(T).init(): left > right"),
         else => @panic("Rng(T).init(): NotSupportedType"),
