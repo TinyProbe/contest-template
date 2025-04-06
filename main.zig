@@ -12,8 +12,8 @@ pub fn solve() !void {
   print("{d}\n", .{scan(usize)});
 }
 
-var bufferedReader = std.io.BufferedReader(std.io.getStdIn().reader());
-var bufferedWriter = std.io.BufferedWriter(std.io.getStdOut().writer());
+var bufferedReader = std.io.bufferedReader(std.io.getStdIn().reader());
+var bufferedWriter = std.io.bufferedWriter(std.io.getStdOut().writer());
 
 fn readByte() ?u8 {
   const reader = bufferedReader.reader();
