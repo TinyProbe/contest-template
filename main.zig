@@ -1,5 +1,5 @@
 const std = @import("std");
-const string = @cImport(@cInclude("string.h")); // need -lc
+const string_h = @cImport(@cInclude("string.h")); // need -lc
 
 pub fn main() !void {
   defer bufferedWriter.flush() catch unreachable;
@@ -61,7 +61,7 @@ pub fn print(comptime fmt: []const u8, args: anytype) void {
 }
 
 pub fn compareSlice(lhs: []const u8, rhs: []const u8) i32 {
-  return @intCast(string.strcmp(@ptrCast(lhs), @ptrCast(rhs)));
+  return @intCast(string_h.strcmp(@ptrCast(lhs), @ptrCast(rhs)));
 }
 
 pub fn parseSlice(comptime T: type, slice: []const u8) !T {
