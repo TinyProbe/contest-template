@@ -8,8 +8,8 @@ const alloc = gpa.allocator();
 
 pub fn main() !void {
     defer bufferedWriter.flush() catch unreachable;
-    defer if (gpa.deinit() == .leak) unreachable;
-    // defer if (gpa.deinit()) unreachable;
+    // defer if (gpa.deinit() == .leak) unreachable;
+    defer if (gpa.deinit()) unreachable;
 
     var t = Rng(usize).init(0, 1);
     // var t = Rng(usize).init(0, scan(usize));
@@ -17,7 +17,6 @@ pub fn main() !void {
 }
 
 pub fn solve() !void {
-    print("hello world!\n", .{});
 }
 
 var bufferedReader = std.io.bufferedReader(std.io.getStdIn().reader());
@@ -77,12 +76,12 @@ pub fn parse(comptime T: type, str: Str) !T {
 pub fn parseSlice(comptime T: type, slice: []const u8) !T {
     if (T == Str) {
         var str = Str.init(alloc);
-        str.assignSlice(slice);
+        try str.assignSlice(slice);
         return str;
     }
     return switch (@typeInfo(T)) {
-        .int => try std.fmt.parseInt(T, slice, 10),
-        .float => try std.fmt.parseFloat(T, slice),
+        .Int => try std.fmt.parseInt(T, slice, 10),
+        .Float => try std.fmt.parseFloat(T, slice),
         else => error.NotSupportedType,
     };
 }
@@ -139,18 +138,18 @@ pub fn Vec(comptime T: type) type {
 
         pub fn assignSlice(self: *Self, slice: []const T) Allocator.Error!void {
             if (isOverlaped(self.items, slice)) {
-                std.mem.copyForwards(T, self.items[0 .. slice.len], slice);
+                std.mem.copy(T, self.items[0 .. slice.len], slice);
                 try self.resize(slice.len);
             } else {
                 try self.resize(slice.len);
-                try self.replaceSlice(0, slice);
+                self.replaceSlice(0, slice);
             }
         }
 
         pub fn assignNTimes(
                 self: *Self, n: usize, item: T) Allocator.Error!void {
             try self.resize(n);
-            try self.replaceNTimes(0, n, item);
+            self.replaceNTimes(0, n, item);
         }
 
         pub fn append(self: *Self, obj: Self) Allocator.Error!void {
@@ -197,11 +196,11 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn replaceSlice(self: *Self, pos: usize, slice: []const T) void {
-            @memcpy(self.items[pos .. pos + slice.len], slice);
+            @memcpy(self.items.ptr + pos, slice.ptr, @sizeOf(T) * slice.len);
         }
 
         pub fn replaceNTimes(self: Self, pos: usize, n: usize, item: T) void {
-            @memset(self.items[pos .. pos + n], item);
+            @memset(self.items.ptr + pos, item.ptr, @sizeOf(T) * n);
         }
 
         pub fn find(self: Self, pos: usize, obj: Self) ?usize {
@@ -301,7 +300,7 @@ pub fn Vec(comptime T: type) type {
         pub fn removeRange(
                 self: *Self, left: usize, right: usize) Allocator.Error!void {
             const width = right - left;
-            std.mem.copyForwards(
+            std.mem.copy(
                 T, self.items[left .. self.items.len - width],
                 self.items[right .. self.items.len]);
             try self.resize(self.items.len - width);
@@ -341,7 +340,7 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn begin(self: Self) [*]T {
-            return @ptrCast(self.items);
+            return @ptrCast(T, self.items);
         }
 
         pub fn end(self: Self) [*]T {
@@ -358,14 +357,14 @@ pub fn Vec(comptime T: type) type {
         }
 
         fn isOverlaped(lhs: []const T, rhs: []const T) bool {
-            const lhs_l: usize = @intFromPtr(lhs.ptr);
-            const lhs_r: usize = @intFromPtr(lhs.ptr + lhs.len);
-            const rhs_l: usize = @intFromPtr(rhs.ptr);
-            const rhs_r: usize = @intFromPtr(rhs.ptr + rhs.len);
-            // const lhs_l: usize = @ptrToInt(lhs.ptr);
-            // const lhs_r: usize = @ptrToInt(lhs.ptr + lhs.len);
-            // const rhs_l: usize = @ptrToInt(rhs.ptr);
-            // const rhs_r: usize = @ptrToInt(rhs.ptr + rhs.len);
+            // const lhs_l: usize = @intFromPtr(lhs.ptr);
+            // const lhs_r: usize = @intFromPtr(lhs.ptr + lhs.len);
+            // const rhs_l: usize = @intFromPtr(rhs.ptr);
+            // const rhs_r: usize = @intFromPtr(rhs.ptr + rhs.len);
+            const lhs_l: usize = @ptrToInt(lhs.ptr);
+            const lhs_r: usize = @ptrToInt(lhs.ptr + lhs.len);
+            const rhs_l: usize = @ptrToInt(rhs.ptr);
+            const rhs_r: usize = @ptrToInt(rhs.ptr + rhs.len);
             return if (lhs_r <= rhs_l or lhs_l >= rhs_r) (false) else (true);
         }
 
@@ -385,12 +384,12 @@ pub fn Vec(comptime T: type) type {
 
         fn realloc(self: *Self, new_capacity: usize) Allocator.Error!void {
             const old_memory = self.allocatedSlice();
-            if (self.allocator.remap(old_memory, new_capacity)) |new_memory| {
+            if (self.allocator.resize(old_memory, new_capacity)) |new_memory| {
                 self.items.ptr = new_memory.ptr;
                 self.capacity = new_memory.len;
             } else {
                 const new_memory = try self.allocator.alloc(T, new_capacity);
-                @memcpy(new_memory[0 .. self.items.len], self.items);
+                @memcpy(new_memory.ptr, self.items.ptr, @sizeOf(T) * self.items.len);
                 self.allocator.free(old_memory);
                 self.items.ptr = new_memory.ptr;
                 self.capacity = new_memory.len;
