@@ -7,8 +7,8 @@ var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
 const alloc = gpa.allocator();
 
 pub fn main() !void {
-    defer bufferedWriter.flush() catch unreachable;
     defer if (gpa.deinit()) unreachable;
+    defer bufferedWriter.flush() catch unreachable;
 
     var t = Rng(usize).init(0, 1);
     // var t = Rng(usize).init(0, scan(usize));
