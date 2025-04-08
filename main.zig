@@ -8,7 +8,6 @@ const alloc = gpa.allocator();
 
 pub fn main() !void {
     defer bufferedWriter.flush() catch unreachable;
-    // defer if (gpa.deinit() == .leak) unreachable;
     defer if (gpa.deinit()) unreachable;
 
     var t = Rng(usize).init(0, 1);
@@ -147,7 +146,7 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn assignNTimes(
-                self: *Self, n: usize, item: T) Allocator.Error!void {
+                self: *Self, n: usize, item: u8) Allocator.Error!void {
             try self.resize(n);
             self.replaceNTimes(0, n, item);
         }
@@ -162,7 +161,7 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn appendNTimes(
-                self: *Self, n: usize, item: T) Allocator.Error!void {
+                self: *Self, n: usize, item: u8) Allocator.Error!void {
             try self.resize(self.items.len + n);
             self.replaceNTimes(self.items.len - n, n, item);
         }
@@ -183,7 +182,7 @@ pub fn Vec(comptime T: type) type {
 
         pub fn insertNTimes(
                 self: *Self,
-                pos: usize, n: usize, item: T) Allocator.Error!void {
+                pos: usize, n: usize, item: u8) Allocator.Error!void {
             try self.resize(self.items.len + n);
             std.mem.copyBackwards(
                     T, self.items[pos + n .. self.items.len],
@@ -196,11 +195,13 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn replaceSlice(self: *Self, pos: usize, slice: []const T) void {
-            @memcpy(self.items.ptr + pos, slice.ptr, @sizeOf(T) * slice.len);
+            @memcpy(@ptrCast([*]u8, self.items.ptr + pos),
+                    @ptrCast([*]u8, slice.ptr), @sizeOf(T) * slice.len);
         }
 
-        pub fn replaceNTimes(self: Self, pos: usize, n: usize, item: T) void {
-            @memset(self.items.ptr + pos, item.ptr, @sizeOf(T) * n);
+        pub fn replaceNTimes(self: Self, pos: usize, n: usize, item: u8) void {
+            @memset(@ptrCast([*]u8, self.items.ptr + pos),
+                    item, @sizeOf(T) * n);
         }
 
         pub fn find(self: Self, pos: usize, obj: Self) ?usize {
@@ -357,10 +358,6 @@ pub fn Vec(comptime T: type) type {
         }
 
         fn isOverlaped(lhs: []const T, rhs: []const T) bool {
-            // const lhs_l: usize = @intFromPtr(lhs.ptr);
-            // const lhs_r: usize = @intFromPtr(lhs.ptr + lhs.len);
-            // const rhs_l: usize = @intFromPtr(rhs.ptr);
-            // const rhs_r: usize = @intFromPtr(rhs.ptr + rhs.len);
             const lhs_l: usize = @ptrToInt(lhs.ptr);
             const lhs_r: usize = @ptrToInt(lhs.ptr + lhs.len);
             const rhs_l: usize = @ptrToInt(rhs.ptr);
@@ -370,11 +367,11 @@ pub fn Vec(comptime T: type) type {
 
         fn optimizedCapacity(new_len: usize) usize {
             var max_bit: u6 = 0;
-            if (new_len >> (max_bit + (1 << 4)) > 0) { max_bit += (1 << 4); }
-            if (new_len >> (max_bit + (1 << 3)) > 0) { max_bit += (1 << 3); }
-            if (new_len >> (max_bit + (1 << 2)) > 0) { max_bit += (1 << 2); }
-            if (new_len >> (max_bit + (1 << 1)) > 0) { max_bit += (1 << 1); }
-            if (new_len >> (max_bit + (1 << 0)) > 0) { max_bit += (1 << 0); }
+            if (new_len >> (max_bit + (1 << 4)) > 0) { max_bit |= (1 << 4); }
+            if (new_len >> (max_bit + (1 << 3)) > 0) { max_bit |= (1 << 3); }
+            if (new_len >> (max_bit + (1 << 2)) > 0) { max_bit |= (1 << 2); }
+            if (new_len >> (max_bit + (1 << 1)) > 0) { max_bit |= (1 << 1); }
+            if (new_len >> (max_bit + (1 << 0)) > 0) { max_bit |= (1 << 0); }
             return @max(@as(usize, 1) << (max_bit + 1), min_capacity);
         }
 
@@ -389,7 +386,9 @@ pub fn Vec(comptime T: type) type {
                 self.capacity = new_memory.len;
             } else {
                 const new_memory = try self.allocator.alloc(T, new_capacity);
-                @memcpy(new_memory.ptr, self.items.ptr, @sizeOf(T) * self.items.len);
+                @memcpy(@ptrCast([*]u8, new_memory.ptr),
+                        @ptrCast([*]u8, self.items.ptr),
+                        @sizeOf(T) * self.items.len);
                 self.allocator.free(old_memory);
                 self.items.ptr = new_memory.ptr;
                 self.capacity = new_memory.len;
