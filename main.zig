@@ -68,6 +68,12 @@ pub fn print(comptime fmt: []const u8, args: anytype) void {
 
 pub const Str = Vec(u8);
 
+pub fn stringFrom(slice: []const u8) !Str {
+  var str = Str.init(alloc);
+  try str.assignSlice(slice);
+  return str;
+}
+
 pub fn parse(comptime T: type, str: Str) !T {
   return parseSlice(T, str.items);
 }
@@ -135,7 +141,7 @@ pub fn Vec(comptime T: type) type {
 
     pub fn assignSlice(self: *Self, slice: []const T) Allocator.Error!void {
       if (isOverlaped(self.items, slice)) {
-        std.mem.copy(T, self.items[0 .. slice.len], slice);
+        std.mem.copyForwards(T, self.items[0 .. slice.len], slice);
         try self.resize(slice.len);
       } else {
         try self.resize(slice.len);
