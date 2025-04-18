@@ -68,15 +68,19 @@ pub fn print(comptime fmt: []const u8, args: anytype) void {
 
 pub const Str = Vec(u8);
 
+pub fn stringFrom(slice: []const u8) !Str {
+  var str = Str.init(alloc);
+  try str.assignSlice(slice);
+  return str;
+}
+
 pub fn parse(comptime T: type, str: Str) !T {
   return parseSlice(T, str.items);
 }
 
 pub fn parseSlice(comptime T: type, slice: []const u8) !T {
-  if (T == Str) {
-    var str = Str.init(alloc);
-    try str.assignSlice(slice);
-    return str;
+  if (T == []const u8) {
+    return slice;
   }
   return switch (@typeInfo(T)) {
     .Int => try std.fmt.parseInt(T, slice, 10),
