@@ -36,7 +36,7 @@ public:
                 (!lower_compare(token, "false") ? false : atoll(token));
         return *this;
     }
-    inline Fastio &operator>>(char &c) { c = readbyte(); return *this; }
+    inline Fastio &operator>>(char &c) { c = readchar(); return *this; }
     inline Fastio &operator>>(short &s) { s = atoll(readtoken()); return *this; }
     inline Fastio &operator>>(int &i) { i = atoll(readtoken()); return *this; }
     inline Fastio &operator>>(long &l) { l = atoll(readtoken()); return *this; }
@@ -76,7 +76,7 @@ private:
         return *lhs - *rhs;
     }
 
-    inline char readbyte() {
+    inline char readchar() {
         if (read_cur_ == read_len_) {
             read_cur_ = 0;
             try {
@@ -94,11 +94,10 @@ private:
         static char token_buffer[kBufferSize];
         size_t len = 0;
         do
-            token_buffer[len] = readbyte();
-        while (token_buffer[len] && iswspace(token_buffer[len]));
-        do
-            token_buffer[++len] = readbyte();
-        while (token_buffer[len] && !iswspace(token_buffer[len]));
+            token_buffer[len] = readchar();
+        while (iswspace(token_buffer[len]));
+        while (token_buffer[len] && !iswspace(token_buffer[len]))
+            token_buffer[++len] = readchar();
         token_buffer[len] = '\0';
         return token_buffer;
     }
@@ -121,7 +120,7 @@ private:
 void solve();
 int main() {
     int t = 1;
-    // fio >> t;
+    fio >> t;
     while (t--) { solve(); }
 }
 
