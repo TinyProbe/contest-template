@@ -105,13 +105,8 @@ private:
     inline void writeString(char const *cstr, size_t len) {
         if (len == (size_t)-1)
             len = strlen(cstr);
-        if (write_len_ + len > kBufferSize) {
+        if (write_len_ + len > kBufferSize)
             flush();
-            if (write_len_ + len > kBufferSize) {
-                fwrite(cstr, sizeof(char), len, stdout);
-                return;
-            }
-        }
         memcpy(write_buffer_ + write_len_, cstr, len);
         write_len_ += len;
     }
