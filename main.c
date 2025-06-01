@@ -19,7 +19,8 @@
 llong gcd(llong a, llong b) { return b ? gcd(b, a % b) : a; }
 llong lcm(llong a, llong b) { return a * b / gcd(a, b); }
 
-void solve(); int main() {
+void solve();
+int main() {
   llong t = 1;
   // scanf("%d", &t);
   loop (_, 0, t) { solve(); }
