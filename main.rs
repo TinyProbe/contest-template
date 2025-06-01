@@ -69,16 +69,14 @@ macro_rules! input_inner {
     (usize_1) => { input_inner!(usize) - 1 };
     ($t:ty) => { cin().scan::<$t>() };
 }
-macro_rules! tny {($c:expr;$t:expr;$f:expr) => (if $c {$t} else {$f})}
-macro_rules! println {($($fmt:tt)*) => (writeln!(cout(),$($fmt)*))}
-macro_rules! print {($($fmt:tt)*) => (write!(cout(),$($fmt)*))}
+macro_rules! tny { ($c:expr;$t:expr;$f:expr) => (if $c {$t} else {$f}) }
+macro_rules! println { ($($fmt:tt)*) => (writeln!(cout(),$($fmt)*)) }
+macro_rules! print { ($($fmt:tt)*) => (write!(cout(),$($fmt)*)) }
 
 fn main() {
     let t = 1usize;
     // input![t: usize];
-    for _ in 0 .. t {
-        solve();
-    }
+    for _ in 0 .. t { solve(); }
     cout().flush().unwrap();
 }
 
