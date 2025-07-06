@@ -12,9 +12,10 @@
 #define swap(a, b)  ((a)^=(b),(b)^=(a),(a)^=(b))
 #define permusum(a) (((a)*(a)+(a))/2)
 #define loop(var, init, end) \
-    for (llong var = (init), __end = (end), __asc = var < __end; \
-        __asc ? var < __end : var-- > __end; \
-        __asc ? ++var : var)
+    for (int var = (init), __end = (end), __asc = var < __end; \
+            __asc ? var < __end + 1 : var > __end - 1; \
+            __asc ? ++var : var) \
+        if (__asc ? var < __end : var-- > __end)
 
 llong gcd(llong a, llong b) { return b ? gcd(b, a % b) : a; }
 llong lcm(llong a, llong b) { return a * b / gcd(a, b); }
