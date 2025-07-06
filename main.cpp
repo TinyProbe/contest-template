@@ -3,6 +3,7 @@ using namespace std;
 
 #define llong long long
 #define ldouble long double
+#define psum(a) (((a) * (a) + (a)) / 2)
 #define loop(var, init, end) \
     for (int var = (init), __end = (end), __asc = var < __end; \
             __asc ? var < __end + 1 : var > __end - 1; \
