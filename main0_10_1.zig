@@ -68,12 +68,6 @@ pub fn print(comptime fmt: []const u8, args: anytype) void {
 
 pub const Str = Vec(u8);
 
-pub fn stringFrom(slice: []const u8) !Str {
-    var str = Str.init(alloc);
-    try str.appendSlice(slice);
-    return str;
-}
-
 pub fn parse(comptime T: type, str: Str) !T {
     return parseSlice(T, str.items);
 }
@@ -195,7 +189,7 @@ pub fn Vec(comptime T: type) type {
 
         pub fn replaceSlice(self: *Self, pos: usize, slice: []const T) void {
             @memcpy(@ptrCast([*]u8, self.items.ptr + pos),
-                @ptrCast([*]u8, slice.ptr), @sizeOf(T) * slice.len);
+                @ptrCast([*]const u8, slice.ptr), @sizeOf(T) * slice.len);
         }
 
         pub fn replaceNTimes(self: Self, pos: usize, n: usize, item: u8) void {
