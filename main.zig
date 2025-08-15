@@ -1,4 +1,4 @@
-// AtCoder Zig(version 0.14.0) template
+// AtCoder Zig(version 0.14.1) template
 
 const std = @import("std");
 const Allocator = std.mem.Allocator;
@@ -67,12 +67,6 @@ pub fn print(comptime fmt: []const u8, args: anytype) void {
 }
 
 pub const Str = Vec(u8);
-
-pub fn stringFrom(slice: []const u8) !Str {
-    var str = Str.init(alloc);
-    try str.appendSlice(slice);
-    return str;
-}
 
 pub fn parse(comptime T: type, str: Str) !T {
     return parseSlice(T, str.items);
