@@ -1,4 +1,4 @@
-// AtCoder Zig(version 0.14.1) template
+// AtCoder Zig(version 0.15.1) template
 
 const std = @import("std");
 const Allocator = std.mem.Allocator;
@@ -16,6 +16,7 @@ pub fn main() !void {
 }
 
 pub fn solve() !void {
+    print("hello world\n", .{});
 }
 
 var bufferedReader = std.io.bufferedReader(std.io.getStdIn().reader());
@@ -305,7 +306,7 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn clear(self: *Self) Allocator.Error!void {
-            try self.realloc(0);
+            try self.realloc(min_capacity);
             self.items.len = 0;
         }
 
