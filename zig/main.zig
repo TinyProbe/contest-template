@@ -2,15 +2,14 @@
 
 const std = @import("std");
 const Allocator = std.mem.Allocator;
-
 var gpa = std.heap.GeneralPurposeAllocator(.{}) {};
 const alloc = gpa.allocator();
 
 var cin_buf: [1 << 12]u8 = undefined;
-var cin_reader = std.fs.File.stdin().reader(&cin_buf);
-const cin = &cin_reader.interface;
 var cout_buf: [1 << 12]u8 = undefined;
+var cin_reader = std.fs.File.stdin().reader(&cin_buf);
 var cout_writer = std.fs.File.stdout().writer(&cout_buf);
+const cin = &cin_reader.interface;
 const cout = &cout_writer.interface;
 
 pub fn main() !void {
