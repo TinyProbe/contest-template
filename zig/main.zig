@@ -23,7 +23,6 @@ pub fn main() !void {
 }
 
 pub fn solve() !void {
-    print("hello world\n", .{});
 }
 
 pub fn scan(comptime T: type) T {
@@ -101,7 +100,7 @@ pub fn Vec(comptime T: type) type {
         allocator: Allocator,
 
         const Self = @This();
-        const min_capacity: usize = 1 << 4;
+        const min_capacity: usize = 1 << 3;
 
         pub fn init(allocator: Allocator) Self {
             return .{
@@ -226,8 +225,9 @@ pub fn Vec(comptime T: type) type {
             std.mem.reverse(T, self.items);
         }
 
-        pub fn sort(self: *Self) void {
-            std.mem.sort(T, self.items, {}, std.sort.asc(T));
+        pub fn sort(self: *Self, context: anytype,
+                compare_fn_gen: fn (comptime T: type) fn (context: @TypeOf(context), a: T, b: T) bool) void {
+            std.mem.sort(T, self.items, context, compare_fn_gen(T));
         }
 
         pub fn clone(self: Self) Allocator.Error!Self {
@@ -291,7 +291,7 @@ pub fn Vec(comptime T: type) type {
         }
 
         pub fn clear(self: *Self) Allocator.Error!void {
-            try self.realloc(min_capacity);
+            try self.realloc(0);
             self.items.len = 0;
         }
 

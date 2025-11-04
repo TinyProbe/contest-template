@@ -19,4 +19,5 @@ int main() {
 }
 
 void solve() {
+    cout << "hello world" << '\n';
 }
