@@ -1,0 +1,15 @@
+/home/tiny/Projects/contest-template/csharp/bin/Debug/net9.0/csharp
+/home/tiny/Projects/contest-template/csharp/bin/Debug/net9.0/csharp.deps.json
+/home/tiny/Projects/contest-template/csharp/bin/Debug/net9.0/csharp.runtimeconfig.json
+/home/tiny/Projects/contest-template/csharp/bin/Debug/net9.0/csharp.dll
+/home/tiny/Projects/contest-template/csharp/bin/Debug/net9.0/csharp.pdb
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.GeneratedMSBuildEditorConfig.editorconfig
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.AssemblyInfoInputs.cache
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.AssemblyInfo.cs
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.csproj.CoreCompileInputs.cache
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.sourcelink.json
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.dll
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/refint/csharp.dll
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.pdb
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/csharp.genruntimeconfig.cache
+/home/tiny/Projects/contest-template/csharp/obj/Debug/net9.0/ref/csharp.dll
